@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados - Sistema de Recomendacion{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <h2>Recomendaciones para Ti</h2>
+    
+    <div class="preferences-summary">
+        <h3>Tus Preferencias</h3>
+        <ul>
+            <li><strong>Categoria:</strong> {{ preferencias.categoria }}</li>
+            <li><strong>Nivel:</strong> {{ preferencias.nivel }}</li>
+            <li><strong>Presupuesto:</strong> ${{ "%.2f" | format(preferencias.presupuesto) }}</li>
+            <li><strong>Tiempo:</strong> {{ preferencias.tiempo }} horas</li>
+            <li><strong>Modalidad:</strong> {{ preferencias.modalidad }}</li>
+            {% if preferencias.tags %}
+            <li><strong>Tags:</strong> {{ preferencias.tags | join(", ") }}</li>
+            {% endif %}
+        </ul>
+    </div>
+
+    {% if recomendaciones %}
+        <div class="results-count">
+            <p>Se encontraron <strong>{{ recomendaciones | length }}</strong> cursos recomendados.</p>
+        </div>
+
+        <div class="courses-grid">
+            {% for item in recomendaciones %}
+                <div class="course-card {% if item.es_alto %}highly-recommended{% endif %}">
+                    {% if item.es_alto %}
+                        <div class="badge">Altamente Recomendado</div>
+                    {% endif %}
+                    
+                    <h3>{{ item.curso.nombre }}</h3>
+                    
+                    <div class="course-meta">
+                        <span class="category">{{ item.curso.categoria }}</span>
+                        <span class="level">{{ item.curso.nivel }}</span>
+                    </div>
+
+                    <div class="course-details">
+                        <p><strong>Duracion:</strong> {{ item.curso.duracion_horas }} horas</p>
+                        <p><strong>Precio:</strong> ${{ "%.2f" | format(item.curso.precio) }}</p>
+                        <p><strong>Modalidad:</strong> {{ item.curso.modalidad }}</p>
+                        <p><strong>Plataforma:</strong> {{ item.curso.plataforma }}</p>
+                        <p><strong>Rating:</strong> 
+                            <span class="rating">{{ "%.1f" | format(item.curso.rating) }} / 5.0</span>
+                        </p>
+                    </div>
+
+                    {% if item.curso.tags %}
+                    <div class="course-tags">
+                        {% for tag in item.curso.tags %}
+                            <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="course-score">
+                        <small>Score de recomendacion: {{ "%.3f" | format(item.score) }}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-results">
+            <h3>No se encontraron recomendaciones</h3>
+            <p>Intenta relajar tus criterios de busqueda para obtener mas resultados.</p>
+        </div>
+    {% endif %}
+
+    <div class="actions">
+        <a href="{{ url_for('controller.index') }}" class="btn btn-secondary">
+            Nueva Busqueda
+        </a>
+    </div>
+</div>
+{% endblock %}

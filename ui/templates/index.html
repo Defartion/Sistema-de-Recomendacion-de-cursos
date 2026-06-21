@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Buscar Cursos - Sistema de Recomendacion{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Preferencias de Busqueda</h2>
+    <p>Ingresa tus criterios para recibir recomendaciones personalizadas.</p>
+
+    <form action="{{ url_for('controller.recomendar') }}" method="POST" class="search-form">
+        <div class="form-group">
+            <label for="categoria">Categoria de Interes *</label>
+            <select id="categoria" name="categoria" required>
+                <option value="">Selecciona una categoria</option>
+                <option value="Programacion">Programacion</option>
+                <option value="Datos">Ciencia de Datos</option>
+                <option value="Diseno">Diseno</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Negocios">Negocios</option>
+                <option value="Idiomas">Idiomas</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nivel">Nivel Actual *</label>
+            <select id="nivel" name="nivel" required>
+                <option value="">Selecciona tu nivel</option>
+                <option value="Principiante">Principiante</option>
+                <option value="Intermedio">Intermedio</option>
+                <option value="Avanzado">Avanzado</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="presupuesto">Presupuesto Maximo (USD) *</label>
+                <input type="number" id="presupuesto" name="presupuesto" 
+                       min="0" step="0.01" placeholder="Ej: 100.00" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tiempo">Tiempo Disponible (horas) *</label>
+                <input type="number" id="tiempo" name="tiempo" 
+                       min="1" placeholder="Ej: 20" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="modalidad">Modalidad Preferida *</label>
+            <select id="modalidad" name="modalidad" required>
+                <option value="">Selecciona una modalidad</option>
+                <option value="Sincrono">Sincrono</option>
+                <option value="Asincrono">Asincrono</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Palabras Clave (opcional)</label>
+            <input type="text" id="tags" name="tags" 
+                   placeholder="Ej: python, data science, diseno (separadas por comas)">
+            <small>Separadas por comas</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Buscar Recomendaciones</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
