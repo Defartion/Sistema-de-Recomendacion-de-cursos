@@ -118,13 +118,74 @@ Se selecciono **Flask** como framework web por su ligereza, curva de aprendizaje
 
 El modulo `controller.py` gestiona el flujo completo de una peticion: recoleccion de datos, validacion, llamada a modulos funcionales y logicos, combinacion de resultados y renderizacion. Evidencia el uso de estado mutable, estructuras de control secuenciales y manejo de excepciones.
 
+```python
+# Fragmento de controller.py (imperativo/OO)
+@controller_bp.route("/recomendar", methods=["POST"])
+def recomendar():
+    try:
+        categoria = request.form.get("categoria", "").strip()
+        nivel = request.form.get("nivel", "").strip()
+        presupuesto = request.form.get("presupuesto", "0")
+        tiempo = request.form.get("tiempo", "0")
+        # ... validaciones y conversiones ...
+        if presupuesto_val < 0 or tiempo_val <= 0:
+            flash("El presupuesto debe ser positivo...", "error")
+            return redirect(url_for("controller.index"))
+```
+
 ### 4.2 Uso del Paradigma Funcional
 
 El modulo `processor.py` implementa operaciones puras de filtrado y ranking usando `map`, `filter`, `reduce` y expresiones `lambda`.
 
+```python
+# Fragmento de processor.py (funcional)
+def filtrar_por_presupuesto(cursos, presupuesto_max):
+    return list(filter(lambda c: c.precio <= presupuesto_max, cursos))
+
+def calcular_score(cursos, tags_usuario):
+    def _score_curso(curso):
+        score_rating = curso.rating / 5.0
+        if tags_usuario:
+            coincidencias = sum(1 for t in tags_usuario if t.lower() in [tag.lower() for tag in curso.tags])
+            score_tags = coincidencias / len(tags_usuario)
+        else:
+            score_tags = 0.0
+        max_precio = max(c.precio for c in cursos) if cursos else 1.0
+        score_precio = 1.0 - (curso.precio / (max_precio * 2))
+        return {"curso": curso, "score": (score_rating * 0.5) + (score_tags * 0.3) + (max(0, score_precio) * 0.2)}
+    cursos_con_score = list(map(_score_curso, cursos))
+    return sorted(cursos_con_score, key=lambda x: x["score"], reverse=True)
+```
+
 ### 4.3 Uso del Paradigma Logico
 
-El modulo `logic_rules.py` define reglas de inferencia sobre la base de conocimiento mediante la libreria `kanren`.
+El modulo `logic_rules.py` define reglas de inferencia sobre la base de conocimiento. Aunque la implementacion actual usa Python nativo para compatibilidad con `kanren` en Python 3.13, la estructura mantiene la semantica declarativa del paradigma logico: hechos (cursos) y reglas (compatibilidad de categoria, nivel, presupuesto, tiempo y rating).
+
+```python
+# Fragmento de logic_rules.py (logico)
+def inferir_recomendaciones(preferencias, cursos):
+    categoria_usuario = preferencias.get("categoria", "")
+    nivel_usuario = preferencias.get("nivel", "")
+    presupuesto_max = preferencias.get("presupuesto_max", float("inf"))
+    tiempo_disponible = preferencias.get("tiempo_disponible", float("inf"))
+    rating_umbral = 4.0
+
+    recomendados = []
+    altamente_recomendados = []
+
+    for curso in cursos:
+        regla_categoria = curso.categoria == categoria_usuario
+        regla_nivel = _compatibilidad_nivel(curso.nivel, nivel_usuario)
+        regla_presupuesto = curso.precio <= presupuesto_max
+        regla_tiempo = curso.duracion_horas <= tiempo_disponible
+        regla_rating = curso.rating >= rating_umbral
+
+        if regla_categoria and regla_nivel and regla_presupuesto and regla_tiempo:
+            recomendados.append(curso)
+            if regla_rating:
+                altamente_recomendados.append(curso)
+
+    return recomendados, altamente_recomendados
 
 ### 4.4 Integracion de los Modulos
 
