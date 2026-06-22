@@ -5,13 +5,10 @@
 {% block content %}
 
 <style>
-    /* ── Onboarding ── */
     .onboarding-wrapper {
         max-width: 700px;
         margin: 0 auto;
     }
-
-    /* Barra de progreso */
     .progress-bar-container {
         background-color: var(--border-color);
         border-radius: 99px;
@@ -31,11 +28,8 @@
         color: var(--text-secondary);
         margin-bottom: 2rem;
     }
-
-    /* Pasos */
     .step { display: none; }
     .step.active { display: block; }
-
     .step h2 {
         font-size: 1.8rem;
         margin-bottom: 0.5rem;
@@ -45,11 +39,7 @@
         color: var(--text-secondary);
         margin-bottom: 2rem;
     }
-
-    /* Inputs normales */
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
+    .form-group { margin-bottom: 1.5rem; }
     .form-group label {
         display: block;
         font-weight: 600;
@@ -68,13 +58,15 @@
         border-color: var(--primary-color);
     }
 
-    /* Grid de tarjetas seleccionables */
+    /* Grid de tarjetas */
     .cards-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 1rem;
         margin-bottom: 2rem;
     }
+    .cards-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .cards-grid-3 { grid-template-columns: repeat(3, 1fr); }
 
     .select-card {
         background: var(--card-bg);
@@ -85,6 +77,10 @@
         cursor: pointer;
         transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
         user-select: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
     }
     .select-card:hover {
         border-color: var(--primary-color);
@@ -97,25 +93,28 @@
         box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
     }
     .select-card .card-icon {
-        font-size: 2.5rem;
-        display: block;
-        margin-bottom: 0.5rem;
+        font-size: 2rem;
+        color: var(--primary-color);
     }
+    .select-card.selected .card-icon { color: var(--primary-dark); }
+
+    /* Textos en bloque separado */
     .select-card .card-label {
+        display: block;
         font-weight: 600;
         font-size: 0.95rem;
         color: var(--text-primary);
+        line-height: 1.3;
     }
     .select-card .card-sub {
+        display: block;
         font-size: 0.78rem;
         color: var(--text-secondary);
-        margin-top: 0.25rem;
+        line-height: 1.4;
     }
-    .select-card.selected .card-label {
-        color: var(--primary-dark);
-    }
+    .select-card.selected .card-label { color: var(--primary-dark); }
 
-    /* Acciones del paso */
+    /* Acciones */
     .step-actions {
         display: flex;
         gap: 1rem;
@@ -129,34 +128,23 @@
         border: none;
         cursor: pointer;
         font-weight: 600;
-        transition: background-color 0.2s, transform 0.1s;
+        transition: background-color 0.2s;
     }
-    .btn-primary {
-        background-color: var(--primary-color);
-        color: white;
-    }
+    .btn-primary { background-color: var(--primary-color); color: white; }
     .btn-primary:hover { background-color: var(--primary-dark); }
-    .btn-secondary {
-        background-color: var(--border-color);
-        color: var(--text-primary);
-    }
+    .btn-secondary { background-color: var(--border-color); color: var(--text-primary); }
     .btn-secondary:hover { background-color: #cbd5e1; }
 
-    /* Nota de limite de seleccion */
     .selection-hint {
         font-size: 0.85rem;
         color: var(--text-secondary);
         margin-bottom: 1rem;
     }
-    .selection-hint span {
-        font-weight: 700;
-        color: var(--primary-color);
-    }
+    .selection-hint span { font-weight: 700; color: var(--primary-color); }
 </style>
 
 <div class="onboarding-wrapper">
 
-    <!-- Barra de progreso -->
     <div class="progress-bar-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -164,194 +152,203 @@
 
     <form action="{{ url_for('controller.recomendar') }}" method="POST" id="onboardingForm">
 
-        <!-- Campos ocultos que se llenan por JS -->
         <input type="hidden" name="categoria" id="hiddenCategoria">
         <input type="hidden" name="nivel"     id="hiddenNivel">
         <input type="hidden" name="modalidad" id="hiddenModalidad">
+        <input type="hidden" name="sexo"      id="hiddenSexo">
         <input type="hidden" name="tags"      value="">
 
-        <!-- ── PASO 1: Nombre ── -->
+        <!-- PASO 1: Nombre -->
         <div class="step active" id="step-1">
-            <h2>👋 ¡Hola! ¿Como te llamas?</h2>
+            <h2>Como te llamas?</h2>
             <p>Personalizaremos tu experiencia con tu nombre.</p>
-
             <div class="form-group">
                 <label for="nombre">Tu nombre</label>
-                <input type="text" id="nombre" name="nombre"
-                       placeholder="Escribe tu nombre aqui...">
+                <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre aqui...">
             </div>
-
             <div class="step-actions">
                 <button type="button" class="btn btn-primary" onclick="nextStep(1)">
-                    Siguiente →
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
         </div>
 
-        <!-- ── PASO 2: Edad y Sexo ── -->
+        <!-- PASO 2: Edad y Sexo -->
         <div class="step" id="step-2">
-            <h2>🙋 Cuentanos sobre ti</h2>
+            <h2>Cuentanos sobre ti</h2>
             <p>Esto nos ayuda a darte recomendaciones mas relevantes.</p>
-
             <div class="form-group">
-                <label for="edad">¿Cuantos anos tienes?</label>
-                <input type="number" id="edad" name="edad"
-                       min="10" max="100" placeholder="Ej: 22">
+                <label for="edad">Cuantos anos tienes?</label>
+                <input type="number" id="edad" name="edad" min="10" max="100" placeholder="Ej: 22">
             </div>
-
             <div class="form-group">
-                <label>¿Con cual genero te identificas?</label>
+                <label>Con cual genero te identificas?</label>
             </div>
-            <div class="cards-grid">
+            <div class="cards-grid cards-grid-3">
                 <div class="select-card" onclick="selectSingle(this, 'sexo', 'Masculino')">
-                    <span class="card-icon">👨</span>
+                    <i class="fa-solid fa-person card-icon"></i>
                     <span class="card-label">Masculino</span>
                 </div>
                 <div class="select-card" onclick="selectSingle(this, 'sexo', 'Femenino')">
-                    <span class="card-icon">👩</span>
+                    <i class="fa-solid fa-person-dress card-icon"></i>
                     <span class="card-label">Femenino</span>
                 </div>
                 <div class="select-card" onclick="selectSingle(this, 'sexo', 'Prefiero no decirlo')">
-                    <span class="card-icon">🤐</span>
+                    <i class="fa-solid fa-user-secret card-icon"></i>
                     <span class="card-label">Prefiero no decirlo</span>
                 </div>
             </div>
-            <input type="hidden" name="sexo" id="hiddenSexo">
-
             <div class="step-actions">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atras</button>
-                <button type="button" class="btn btn-primary"   onclick="nextStep(2)">Siguiente →</button>
+                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                    <i class="fa-solid fa-arrow-left"></i> Atras
+                </button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- ── PASO 3: Profesion ── -->
+        <!-- PASO 3: Profesion -->
         <div class="step" id="step-3">
-            <h2>💼 ¿Cual es tu profesion o carrera?</h2>
+            <h2>Cual es tu profesion o carrera?</h2>
             <p>Usaremos esto para recomendarte cursos relacionados a tu campo.</p>
-
             <div class="form-group">
                 <label for="profesion">Profesion o carrera</label>
                 <input type="text" id="profesion" name="profesion"
                        placeholder="Ej: Ingenieria de Sistemas, Medicina, Administracion...">
             </div>
-
             <div class="step-actions">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">← Atras</button>
-                <button type="button" class="btn btn-primary"   onclick="nextStep(3)">Siguiente →</button>
+                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">
+                    <i class="fa-solid fa-arrow-left"></i> Atras
+                </button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- ── PASO 4: Categoria ── -->
+        <!-- PASO 4: Categoria -->
         <div class="step" id="step-4">
-            <h2>🎯 ¿Que te gustaria aprender?</h2>
+            <h2>Que te gustaria aprender?</h2>
             <p>Selecciona hasta 3 areas que te interesen.</p>
             <p class="selection-hint">Seleccionadas: <span id="catCount">0</span> / 3</p>
-
             <div class="cards-grid">
                 <div class="select-card" onclick="selectMulti(this, 'categorias', 'Programacion', 3)">
-                    <span class="card-icon">💻</span>
+                    <i class="fa-solid fa-laptop-code card-icon"></i>
                     <span class="card-label">Programacion</span>
                 </div>
                 <div class="select-card" onclick="selectMulti(this, 'categorias', 'Datos', 3)">
-                    <span class="card-icon">📊</span>
+                    <i class="fa-solid fa-chart-bar card-icon"></i>
                     <span class="card-label">Ciencia de Datos</span>
                 </div>
                 <div class="select-card" onclick="selectMulti(this, 'categorias', 'Diseno', 3)">
-                    <span class="card-icon">🎨</span>
+                    <i class="fa-solid fa-pen-nib card-icon"></i>
                     <span class="card-label">Diseno</span>
                 </div>
                 <div class="select-card" onclick="selectMulti(this, 'categorias', 'Marketing', 3)">
-                    <span class="card-icon">📢</span>
+                    <i class="fa-solid fa-bullhorn card-icon"></i>
                     <span class="card-label">Marketing</span>
                 </div>
                 <div class="select-card" onclick="selectMulti(this, 'categorias', 'Negocios', 3)">
-                    <span class="card-icon">💼</span>
+                    <i class="fa-solid fa-briefcase card-icon"></i>
                     <span class="card-label">Negocios</span>
                 </div>
                 <div class="select-card" onclick="selectMulti(this, 'categorias', 'Idiomas', 3)">
-                    <span class="card-icon">🌎</span>
+                    <i class="fa-solid fa-language card-icon"></i>
                     <span class="card-label">Idiomas</span>
                 </div>
             </div>
-
             <div class="step-actions">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(4)">← Atras</button>
-                <button type="button" class="btn btn-primary"   onclick="nextStep(4)">Siguiente →</button>
+                <button type="button" class="btn btn-secondary" onclick="prevStep(4)">
+                    <i class="fa-solid fa-arrow-left"></i> Atras
+                </button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- ── PASO 5: Nivel ── -->
+        <!-- PASO 5: Nivel -->
         <div class="step" id="step-5">
-            <h2>📈 ¿Cual es tu nivel actual?</h2>
+            <h2>Cual es tu nivel actual?</h2>
             <p>Se honesto, asi encontramos el curso ideal para ti.</p>
-
-            <div class="cards-grid">
+            <div class="cards-grid cards-grid-3">
                 <div class="select-card" onclick="selectSingle(this, 'nivel', 'Principiante')">
-                    <span class="card-icon">🌱</span>
+                    <i class="fa-solid fa-seedling card-icon"></i>
                     <span class="card-label">Principiante</span>
                     <span class="card-sub">Estoy comenzando desde cero</span>
                 </div>
                 <div class="select-card" onclick="selectSingle(this, 'nivel', 'Intermedio')">
-                    <span class="card-icon">🚀</span>
+                    <i class="fa-solid fa-rocket card-icon"></i>
                     <span class="card-label">Intermedio</span>
                     <span class="card-sub">Ya tengo conocimientos basicos</span>
                 </div>
                 <div class="select-card" onclick="selectSingle(this, 'nivel', 'Avanzado')">
-                    <span class="card-icon">⭐</span>
+                    <i class="fa-solid fa-star card-icon"></i>
                     <span class="card-label">Avanzado</span>
                     <span class="card-sub">Domino el tema y quiero profundizar</span>
                 </div>
             </div>
-
             <div class="step-actions">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(5)">← Atras</button>
-                <button type="button" class="btn btn-primary"   onclick="nextStep(5)">Siguiente →</button>
+                <button type="button" class="btn btn-secondary" onclick="prevStep(5)">
+                    <i class="fa-solid fa-arrow-left"></i> Atras
+                </button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(5)">
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- ── PASO 6: Presupuesto y Tiempo ── -->
+        <!-- PASO 6: Presupuesto y Tiempo -->
         <div class="step" id="step-6">
-            <h2>💰 ¿Cuanto puedes invertir?</h2>
+            <h2>Cuanto puedes invertir?</h2>
             <p>Dinos tu presupuesto y cuantas horas tienes disponibles.</p>
-
             <div class="form-group">
-                <label for="presupuesto">Presupuesto maximo (USD)</label>
+                <label for="presupuesto">
+                    <i class="fa-solid fa-dollar-sign"></i> Presupuesto maximo (USD)
+                </label>
                 <input type="number" id="presupuesto" name="presupuesto"
                        min="0" step="0.01" placeholder="Ej: 100.00">
             </div>
             <div class="form-group">
-                <label for="tiempo">Horas disponibles para estudiar</label>
-                <input type="number" id="tiempo" name="tiempo"
-                       min="1" placeholder="Ej: 20">
+                <label for="tiempo">
+                    <i class="fa-solid fa-clock"></i> Horas disponibles para estudiar
+                </label>
+                <input type="number" id="tiempo" name="tiempo" min="1" placeholder="Ej: 20">
             </div>
-
             <div class="step-actions">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(6)">← Atras</button>
-                <button type="button" class="btn btn-primary"   onclick="nextStep(6)">Siguiente →</button>
+                <button type="button" class="btn btn-secondary" onclick="prevStep(6)">
+                    <i class="fa-solid fa-arrow-left"></i> Atras
+                </button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(6)">
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- ── PASO 7: Modalidad ── -->
+        <!-- PASO 7: Modalidad -->
         <div class="step" id="step-7">
-            <h2>🎓 ¿Como prefieres estudiar?</h2>
+            <h2>Como prefieres estudiar?</h2>
             <p>Elige el formato que mejor se adapta a tu rutina.</p>
-
-            <div class="cards-grid">
+            <div class="cards-grid cards-grid-2">
                 <div class="select-card" onclick="selectSingle(this, 'modalidad', 'Sincrono')">
-                    <span class="card-icon">🎥</span>
+                    <i class="fa-solid fa-video card-icon"></i>
                     <span class="card-label">En vivo</span>
                     <span class="card-sub">Clases con horario fijo y profesor en tiempo real</span>
                 </div>
                 <div class="select-card" onclick="selectSingle(this, 'modalidad', 'Asincrono')">
-                    <span class="card-icon">⏱️</span>
+                    <i class="fa-solid fa-circle-play card-icon"></i>
                     <span class="card-label">A mi ritmo</span>
                     <span class="card-sub">Accede cuando quieras, sin horarios fijos</span>
                 </div>
             </div>
-
             <div class="step-actions">
-                <button type="button" class="btn btn-secondary" onclick="prevStep(7)">← Atras</button>
-                <button type="submit" class="btn btn-primary">Ver mis recomendaciones 🎓</button>
+                <button type="button" class="btn btn-secondary" onclick="prevStep(7)">
+                    <i class="fa-solid fa-arrow-left"></i> Atras
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Ver mis recomendaciones <i class="fa-solid fa-graduation-cap"></i>
+                </button>
             </div>
         </div>
 
@@ -360,83 +357,51 @@
 
 <script>
     const TOTAL_STEPS = 7;
-    let currentStep = 1;
-
-    // Almacena selecciones multiples
     const multiSelections = { categorias: [] };
-    // Almacena selecciones simples
     const singleSelections = {};
 
     function showStep(n) {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         document.getElementById('step-' + n).classList.add('active');
-        const pct = (n / TOTAL_STEPS) * 100;
-        document.getElementById('progressBar').style.width = pct + '%';
+        document.getElementById('progressBar').style.width = (n / TOTAL_STEPS * 100) + '%';
         document.getElementById('progressText').textContent = 'Paso ' + n + ' de ' + TOTAL_STEPS;
-        currentStep = n;
         window.scrollTo(0, 0);
     }
 
-    // Seleccion de una sola opcion
     function selectSingle(card, group, value) {
-        // Deseleccionar todas las cards del mismo grupo en este paso
-        card.closest('.step').querySelectorAll('.select-card').forEach(c => {
-            c.classList.remove('selected');
-        });
+        card.closest('.cards-grid').querySelectorAll('.select-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         singleSelections[group] = value;
-
-        // Actualizar hidden inputs
-        const map = {
-            'sexo':     'hiddenSexo',
-            'nivel':    'hiddenNivel',
-            'modalidad':'hiddenModalidad'
-        };
-        if (map[group]) {
-            document.getElementById(map[group]).value = value;
-        }
+        const map = { sexo: 'hiddenSexo', nivel: 'hiddenNivel', modalidad: 'hiddenModalidad' };
+        if (map[group]) document.getElementById(map[group]).value = value;
     }
 
-    // Seleccion multiple con limite
     function selectMulti(card, group, value, maxSelect) {
         const arr = multiSelections[group];
         const idx = arr.indexOf(value);
-
         if (idx > -1) {
-            // Ya estaba seleccionado → deseleccionar
             arr.splice(idx, 1);
             card.classList.remove('selected');
         } else {
-            if (arr.length >= maxSelect) {
-                alert('Puedes seleccionar maximo ' + maxSelect + ' opciones.');
-                return;
-            }
+            if (arr.length >= maxSelect) { alert('Puedes seleccionar maximo ' + maxSelect + ' opciones.'); return; }
             arr.push(value);
             card.classList.add('selected');
         }
-
-        // Actualizar contador
         if (group === 'categorias') {
             document.getElementById('catCount').textContent = arr.length;
-            // Usamos la primera categoria seleccionada como principal
             document.getElementById('hiddenCategoria').value = arr[0] || '';
         }
     }
 
     function nextStep(from) {
-        // Validaciones por paso
-        if (from === 1) {
-            const nombre = document.getElementById('nombre').value.trim();
-            if (!nombre) { alert('Por favor escribe tu nombre.'); return; }
+        if (from === 1 && !document.getElementById('nombre').value.trim()) {
+            alert('Por favor escribe tu nombre.'); return;
         }
-        if (from === 2) {
-            if (!singleSelections['sexo']) { alert('Por favor selecciona una opcion de genero.'); return; }
+        if (from === 2 && !singleSelections['sexo']) {
+            alert('Por favor selecciona una opcion de genero.'); return;
         }
         if (from === 4) {
-            if (multiSelections['categorias'].length === 0) {
-                alert('Por favor selecciona al menos una categoria.'); return;
-            }
-            // Llenar el hidden con la primera seleccionada
+            if (multiSelections['categorias'].length === 0) { alert('Por favor selecciona al menos una categoria.'); return; }
             document.getElementById('hiddenCategoria').value = multiSelections['categorias'][0];
         }
         if (from === 5) {
@@ -444,11 +409,10 @@
             document.getElementById('hiddenNivel').value = singleSelections['nivel'];
         }
         if (from === 6) {
-            const p = document.getElementById('presupuesto').value;
-            const t = document.getElementById('tiempo').value;
-            if (!p || !t) { alert('Por favor completa presupuesto y tiempo.'); return; }
+            if (!document.getElementById('presupuesto').value || !document.getElementById('tiempo').value) {
+                alert('Por favor completa presupuesto y tiempo.'); return;
+            }
         }
-
         showStep(from + 1);
     }
 
@@ -456,12 +420,9 @@
         if (from > 1) showStep(from - 1);
     }
 
-    // Al enviar el form, llenar campos ocultos finales
     document.getElementById('onboardingForm').addEventListener('submit', function(e) {
         if (!singleSelections['modalidad']) {
-            e.preventDefault();
-            alert('Por favor selecciona como prefieres estudiar.');
-            return;
+            e.preventDefault(); alert('Por favor selecciona como prefieres estudiar.'); return;
         }
         document.getElementById('hiddenModalidad').value = singleSelections['modalidad'];
         document.getElementById('hiddenNivel').value = singleSelections['nivel'] || '';
