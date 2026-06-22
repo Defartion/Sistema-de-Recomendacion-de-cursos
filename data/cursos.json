@@ -6,10 +6,10 @@
         "nivel": "Principiante",
         "duracion_horas": 30,
         "precio": 49.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "Udemy",
         "rating": 4.5,
-        "tags": ["python", "programación", "básico"]
+        "tags": ["python", "programacion", "basico"]
     },
     {
         "id": 2,
@@ -25,15 +25,15 @@
     },
     {
         "id": 3,
-        "nombre": "Diseño UX/UI Fundamental",
-        "categoria": "Diseño",
+        "nombre": "Diseno UX/UI Fundamental",
+        "categoria": "Diseno",
         "nivel": "Principiante",
         "duracion_horas": 25,
         "precio": 39.99,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
         "rating": 4.3,
-        "tags": ["diseño", "ux", "ui", "figma"]
+        "tags": ["diseno", "ux", "ui", "figma"]
     },
     {
         "id": 4,
@@ -45,12 +45,12 @@
         "modalidad": "Asincrono",
         "plataforma": "edX",
         "rating": 4.6,
-        "tags": ["data science", "python", "pandas", "visualización"]
+        "tags": ["data science", "python", "pandas", "visualizacion"]
     },
     {
         "id": 5,
         "nombre": "JavaScript Moderno y ES6+",
-        "categoria": "Programación",
+        "categoria": "Programacion",
         "nivel": "Intermedio",
         "duracion_horas": 35,
         "precio": 59.99,
@@ -61,15 +61,15 @@
     },
     {
         "id": 6,
-        "nombre": "Diseño Gráfico Profesional",
-        "categoria": "Diseño",
+        "nombre": "Diseno Grafico Profesional",
+        "categoria": "Diseno",
         "nivel": "Intermedio",
         "duracion_horas": 40,
         "precio": 69.99,
         "modalidad": "Sincrono",
         "plataforma": "Skillshare",
         "rating": 4.2,
-        "tags": ["diseño gráfico", "photoshop", "illustrator", "branding"]
+        "tags": ["diseno grafico", "photoshop", "illustrator", "branding"]
     },
     {
         "id": 7,
@@ -85,7 +85,7 @@
     },
     {
         "id": 8,
-        "nombre": "Introducción a la Programación",
+        "nombre": "Introduccion a la Programacion",
         "categoria": "Programacion",
         "nivel": "Principiante",
         "duracion_horas": 20,
@@ -109,7 +109,7 @@
     },
     {
         "id": 10,
-        "nombre": "Análisis de Datos con SQL",
+        "nombre": "Analisis de Datos con SQL",
         "categoria": "Datos",
         "nivel": "Intermedio",
         "duracion_horas": 25,
@@ -117,7 +117,7 @@
         "modalidad": "Asincrono",
         "plataforma": "Coursera",
         "rating": 4.5,
-        "tags": ["sql", "bases de datos", "análisis", "data"]
+        "tags": ["sql", "bases de datos", "analisis", "data"]
     },
     {
         "id": 11,
@@ -133,15 +133,15 @@
     },
     {
         "id": 12,
-        "nombre": "Diseño de Interfaces Móviles",
-        "categoria": "Diseño",
+        "nombre": "Diseno de Interfaces Moviles",
+        "categoria": "Diseno",
         "nivel": "Avanzado",
         "duracion_horas": 30,
         "precio": 79.99,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
         "rating": 4.4,
-        "tags": ["diseño móvil", "ui", "ux", "prototipado"]
+        "tags": ["diseno movil", "ui", "ux", "prototipado"]
     },
     {
         "id": 13,
@@ -157,7 +157,7 @@
     },
     {
         "id": 14,
-        "nombre": "Gestión de Proyectos Ágiles",
+        "nombre": "Gestion de Proyectos Agiles",
         "categoria": "Negocios",
         "nivel": "Intermedio",
         "duracion_horas": 20,
@@ -165,11 +165,11 @@
         "modalidad": "Asincrono",
         "plataforma": "LinkedIn Learning",
         "rating": 4.2,
-        "tags": ["agile", "scrum", "gestión", "liderazgo"]
+        "tags": ["agile", "scrum", "gestion", "liderazgo"]
     },
     {
         "id": 15,
-        "nombre": "Inglés para Negocios",
+        "nombre": "Ingles para Negocios",
         "categoria": "Idiomas",
         "nivel": "Intermedio",
         "duracion_horas": 40,
@@ -177,6 +177,6 @@
         "modalidad": "Sincrono",
         "plataforma": "Coursera",
         "rating": 4.3,
-        "tags": ["inglés", "negocios", "comunicación"]
+        "tags": ["ingles", "negocios", "comunicacion"]
     }
 ]
