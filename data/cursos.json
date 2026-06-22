@@ -2,7 +2,7 @@
     {
         "id": 1,
         "nombre": "Python para Principiantes",
-        "categoria": "Programación",
+        "categoria": "Programacion",
         "nivel": "Principiante",
         "duracion_horas": 30,
         "precio": 49.99,
@@ -18,7 +18,7 @@
         "nivel": "Avanzado",
         "duracion_horas": 60,
         "precio": 129.99,
-        "modalidad": "Síncrono",
+        "modalidad": "Sincrono",
         "plataforma": "Coursera",
         "rating": 4.8,
         "tags": ["machine learning", "python", "data science", "algoritmos"]
@@ -30,7 +30,7 @@
         "nivel": "Principiante",
         "duracion_horas": 25,
         "precio": 39.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "Platzi",
         "rating": 4.3,
         "tags": ["diseño", "ux", "ui", "figma"]
@@ -42,7 +42,7 @@
         "nivel": "Intermedio",
         "duracion_horas": 45,
         "precio": 79.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "edX",
         "rating": 4.6,
         "tags": ["data science", "python", "pandas", "visualización"]
@@ -54,7 +54,7 @@
         "nivel": "Intermedio",
         "duracion_horas": 35,
         "precio": 59.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "Udemy",
         "rating": 4.4,
         "tags": ["javascript", "web", "frontend", "es6"]
@@ -66,7 +66,7 @@
         "nivel": "Intermedio",
         "duracion_horas": 40,
         "precio": 69.99,
-        "modalidad": "Síncrono",
+        "modalidad": "Sincrono",
         "plataforma": "Skillshare",
         "rating": 4.2,
         "tags": ["diseño gráfico", "photoshop", "illustrator", "branding"]
@@ -78,7 +78,7 @@
         "nivel": "Avanzado",
         "duracion_horas": 50,
         "precio": 149.99,
-        "modalidad": "Síncrono",
+        "modalidad": "Sincrono",
         "plataforma": "DataCamp",
         "rating": 4.7,
         "tags": ["big data", "spark", "scala", "cloud"]
@@ -86,14 +86,14 @@
     {
         "id": 8,
         "nombre": "Introducción a la Programación",
-        "categoria": "Programación",
+        "categoria": "Programacion",
         "nivel": "Principiante",
         "duracion_horas": 20,
         "precio": 29.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "freeCodeCamp",
         "rating": 4.1,
-        "tags": ["programación", "lógica", "básico"]
+        "tags": ["programacion", "logica", "basico"]
     },
     {
         "id": 9,
@@ -102,7 +102,7 @@
         "nivel": "Principiante",
         "duracion_horas": 15,
         "precio": 34.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "Udemy",
         "rating": 4.0,
         "tags": ["marketing", "seo", "redes sociales", "google ads"]
@@ -114,7 +114,7 @@
         "nivel": "Intermedio",
         "duracion_horas": 25,
         "precio": 54.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "Coursera",
         "rating": 4.5,
         "tags": ["sql", "bases de datos", "análisis", "data"]
@@ -122,11 +122,11 @@
     {
         "id": 11,
         "nombre": "React.js de Cero a Experto",
-        "categoria": "Programación",
+        "categoria": "Programacion",
         "nivel": "Intermedio",
         "duracion_horas": 55,
         "precio": 89.99,
-        "modalidad": "Síncrono",
+        "modalidad": "Sincrono",
         "plataforma": "Udemy",
         "rating": 4.6,
         "tags": ["react", "javascript", "frontend", "web"]
@@ -138,7 +138,7 @@
         "nivel": "Avanzado",
         "duracion_horas": 30,
         "precio": 79.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "Platzi",
         "rating": 4.4,
         "tags": ["diseño móvil", "ui", "ux", "prototipado"]
@@ -150,7 +150,7 @@
         "nivel": "Avanzado",
         "duracion_horas": 70,
         "precio": 199.99,
-        "modalidad": "Síncrono",
+        "modalidad": "Sincrono",
         "plataforma": "Udacity",
         "rating": 4.9,
         "tags": ["inteligencia artificial", "python", "deep learning", "nlp"]
@@ -162,7 +162,7 @@
         "nivel": "Intermedio",
         "duracion_horas": 20,
         "precio": 44.99,
-        "modalidad": "Asíncrono",
+        "modalidad": "Asincrono",
         "plataforma": "LinkedIn Learning",
         "rating": 4.2,
         "tags": ["agile", "scrum", "gestión", "liderazgo"]
@@ -174,7 +174,7 @@
         "nivel": "Intermedio",
         "duracion_horas": 40,
         "precio": 59.99,
-        "modalidad": "Síncrono",
+        "modalidad": "Sincrono",
         "plataforma": "Coursera",
         "rating": 4.3,
         "tags": ["inglés", "negocios", "comunicación"]
