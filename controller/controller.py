@@ -3,8 +3,6 @@ Modulo controlador (paradigma imperativo/OO).
 
 Este modulo orquesta las peticiones HTTP, coordina el llamado a los 
 modulos funcionales y logicos, y renderiza las vistas correspondientes.
-Implementa el flujo de control imperativo: recepcion, validacion,
-procesamiento y respuesta.
 """
 
 import json
@@ -18,14 +16,10 @@ from models.curso import Curso
 from processor.processor import procesar_recomendaciones
 from logic_rules.logic_rules import inferir_recomendaciones
 
-
-# Configuracion de logging (solo en el controlador, no en modulos puros)
 logger = logging.getLogger(__name__)
 
-# Blueprint de Flask para organizar las rutas
 controller_bp = Blueprint("controller", __name__, template_folder="ui/templates")
 
-# Carga de base de conocimiento al iniciar (imperativo: estado mutable controlado)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CURSOS_JSON = os.path.join(BASE_DIR, "data", "cursos.json")
 
@@ -33,7 +27,6 @@ _catalogo_cursos: List[Curso] = []
 
 
 def _cargar_catalogo() -> List[Curso]:
-    """Carga el catalogo de cursos desde el archivo JSON."""
     global _catalogo_cursos
     if not _catalogo_cursos:
         with open(CURSOS_JSON, "r", encoding="utf-8") as f:
@@ -42,28 +35,72 @@ def _cargar_catalogo() -> List[Curso]:
     return _catalogo_cursos
 
 
+# Mapa de profesion -> categorias relacionadas
+PROFESION_CATEGORIA = {
+    "ingenieria": ["Programacion", "Datos"],
+    "sistemas": ["Programacion", "Datos"],
+    "software": ["Programacion", "Datos"],
+    "informatica": ["Programacion", "Datos"],
+    "computacion": ["Programacion", "Datos"],
+    "medicina": ["Datos"],
+    "salud": ["Datos"],
+    "administracion": ["Negocios", "Marketing"],
+    "negocios": ["Negocios", "Marketing"],
+    "empresa": ["Negocios", "Marketing"],
+    "marketing": ["Marketing"],
+    "publicidad": ["Marketing"],
+    "diseno": ["Diseno"],
+    "arte": ["Diseno"],
+    "grafico": ["Diseno"],
+    "idiomas": ["Idiomas"],
+    "traduccion": ["Idiomas"],
+    "lenguas": ["Idiomas"],
+    "datos": ["Datos"],
+    "estadistica": ["Datos"],
+    "economia": ["Negocios", "Datos"],
+    "contabilidad": ["Negocios"],
+    "finanzas": ["Negocios", "Datos"],
+}
+
+
+def _categorias_por_profesion(profesion: str) -> List[str]:
+    """Infiere categorias relacionadas a la profesion del usuario."""
+    profesion_lower = profesion.lower()
+    categorias = []
+    for keyword, cats in PROFESION_CATEGORIA.items():
+        if keyword in profesion_lower:
+            for cat in cats:
+                if cat not in categorias:
+                    categorias.append(cat)
+    return categorias
+
+
 @controller_bp.route("/")
 def index():
-    """Ruta principal: muestra el formulario de preferencias."""
     logger.info("Solicitud GET a la pagina principal")
     return render_template("index.html")
 
 
 @controller_bp.route("/recomendar", methods=["POST"])
 def recomendar():
-    """Ruta de recomendacion: procesa preferencias y muestra resultados."""
     try:
-        # Recoleccion de datos del formulario (imperativo)
-        categoria = request.form.get("categoria", "").strip()
-        nivel = request.form.get("nivel", "").strip()
+        # Datos del formulario — campos nuevos del onboarding
+        nombre    = request.form.get("nombre", "").strip()
+        edad      = request.form.get("edad", "").strip()
+        sexo      = request.form.get("sexo", "").strip()
+        profesion = request.form.get("profesion", "").strip()
+
+        # Campos de preferencias
+        categoria  = request.form.get("categoria", "").strip()
+        nivel      = request.form.get("nivel", "").strip()
         presupuesto = request.form.get("presupuesto", "0")
-        tiempo = request.form.get("tiempo", "0")
-        modalidad = request.form.get("modalidad", "").strip()
-        tags = request.form.get("tags", "").strip()
+        tiempo     = request.form.get("tiempo", "0")
+        modalidad  = request.form.get("modalidad", "").strip()
+        tags       = request.form.get("tags", "").strip()
 
         logger.info(
-            f"Solicitud de recomendacion: categoria={categoria}, nivel={nivel}, "
-            f"presupuesto={presupuesto}, tiempo={tiempo}, modalidad={modalidad}"
+            f"Recomendacion para: {nombre}, profesion={profesion}, "
+            f"categoria={categoria}, nivel={nivel}, modalidad={modalidad}"
         )
 
         # Validacion de campos obligatorios
@@ -71,7 +108,6 @@ def recomendar():
             flash("Por favor completa todos los campos obligatorios.", "error")
             return redirect(url_for("controller.index"))
 
-        # Conversion y validacion de tipos
         try:
             presupuesto_val = float(presupuesto)
             tiempo_val = int(tiempo)
@@ -83,13 +119,11 @@ def recomendar():
             flash("El presupuesto debe ser positivo y el tiempo mayor a 0.", "error")
             return redirect(url_for("controller.index"))
 
-        # Procesamiento de tags
         tags_list = [t.strip() for t in tags.split(",") if t.strip()]
 
-        # Carga del catalogo
         catalogo = _cargar_catalogo()
 
-        # Paso 1: Inferencia logica (paradigma logico)
+        # ── Paso 1: Inferencia logica ──
         preferencias = {
             "categoria": categoria,
             "nivel": nivel,
@@ -100,16 +134,14 @@ def recomendar():
             preferencias, catalogo
         )
 
-        # Paso 2: Procesamiento funcional (paradigma funcional)
+        # ── Paso 2: Procesamiento funcional ──
         resultados_funcionales = procesar_recomendaciones(
             catalogo, presupuesto=presupuesto_val, tiempo=tiempo_val,
             modalidad=modalidad, tags_usuario=tags_list, top_n=10
         )
 
-        # Paso 3: Combinacion de resultados (logica imperativa)
-        # Priorizar los que estan en ambas listas
         ids_logicos = {c.id for c in recomendados_logicos}
-        ids_altos = {c.id for c in altamente_recomendados}
+        ids_altos   = {c.id for c in altamente_recomendados}
 
         combinados = []
         for res in resultados_funcionales:
@@ -121,14 +153,39 @@ def recomendar():
                 "es_alto": curso.id in ids_altos,
             })
 
-        # Ordenar: primero altamente recomendados, luego por score
-        combinados.sort(
-            key=lambda x: (not x["es_alto"], -x["score"])
-        )
+        combinados.sort(key=lambda x: (not x["es_alto"], -x["score"]))
+
+        # ── Paso 3: Cursos relacionados a la profesion ──
+        cats_profesion = _categorias_por_profesion(profesion) if profesion else []
+        ids_ya_mostrados = {r["curso"].id for r in combinados}
+
+        relacionados_profesion = []
+        if cats_profesion:
+            for curso in catalogo:
+                if curso.categoria in cats_profesion and curso.id not in ids_ya_mostrados:
+                    if curso.precio <= presupuesto_val and curso.duracion_horas <= tiempo_val:
+                        relacionados_profesion.append({
+                            "curso": curso,
+                            "score": curso.rating / 5.0,
+                            "es_logico": False,
+                            "es_alto": curso.rating >= 4.5,
+                        })
+            relacionados_profesion.sort(key=lambda x: -x["score"])
+
+        # ── Agrupar por categoria para los carruseles ──
+        carruseles = {}
+        for item in combinados:
+            cat = item["curso"].categoria
+            if cat not in carruseles:
+                carruseles[cat] = []
+            carruseles[cat].append(item)
 
         return render_template(
             "resultado.html",
             recomendaciones=combinados,
+            carruseles=carruseles,
+            relacionados_profesion=relacionados_profesion,
+            cats_profesion=cats_profesion,
             preferencias={
                 "categoria": categoria,
                 "nivel": nivel,
@@ -136,11 +193,16 @@ def recomendar():
                 "tiempo": tiempo_val,
                 "modalidad": modalidad,
                 "tags": tags_list,
+            },
+            usuario={
+                "nombre": nombre,
+                "edad": edad,
+                "sexo": sexo,
+                "profesion": profesion,
             }
         )
 
     except Exception as e:
-        # Manejo de excepciones (paradigma imperativo: control de flujo de errores)
         logger.error(f"Error al procesar recomendacion: {e}")
         flash(f"Ocurrio un error al procesar la solicitud: {str(e)}", "error")
         return redirect(url_for("controller.index"))

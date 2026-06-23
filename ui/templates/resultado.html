@@ -1,79 +1,332 @@
 {% extends "base.html" %}
 
-{% block title %}Resultados - Sistema de Recomendacion{% endblock %}
+{% block title %}Recomendaciones - Sistema de Cursos{% endblock %}
 
 {% block content %}
-<div class="results-container">
-    <h2>Recomendaciones para Ti</h2>
-    
-    <div class="preferences-summary">
-        <h3>Tus Preferencias</h3>
-        <ul>
-            <li><strong>Categoria:</strong> {{ preferencias.categoria }}</li>
-            <li><strong>Nivel:</strong> {{ preferencias.nivel }}</li>
-            <li><strong>Presupuesto:</strong> ${{ "%.2f" | format(preferencias.presupuesto) }}</li>
-            <li><strong>Tiempo:</strong> {{ preferencias.tiempo }} horas</li>
-            <li><strong>Modalidad:</strong> {{ preferencias.modalidad }}</li>
-            {% if preferencias.tags %}
-            <li><strong>Tags:</strong> {{ preferencias.tags | join(", ") }}</li>
-            {% endif %}
-        </ul>
-    </div>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/resultado.css') }}">
 
-    {% if recomendaciones %}
-        <div class="results-count">
-            <p>Se encontraron <strong>{{ recomendaciones | length }}</strong> cursos recomendados.</p>
-        </div>
+<!-- Saludo personalizado -->
+<div class="results-header">
+    {% if usuario.nombre %}
+        <h2>Hola, {{ usuario.nombre }} <i class="fa-solid fa-hand-wave"></i></h2>
+        <p class="results-subtitle">Estas son las mejores opciones para ti basadas en tus preferencias.</p>
+    {% else %}
+        <h2>Tus recomendaciones <i class="fa-solid fa-graduation-cap"></i></h2>
+    {% endif %}
+</div>
 
-        <div class="courses-grid">
-            {% for item in recomendaciones %}
-                <div class="course-card {% if item.es_alto %}highly-recommended{% endif %}">
-                    {% if item.es_alto %}
-                        <div class="badge">Altamente Recomendado</div>
-                    {% endif %}
-                    
-                    <h3>{{ item.curso.nombre }}</h3>
-                    
-                    <div class="course-meta">
-                        <span class="category">{{ item.curso.categoria }}</span>
-                        <span class="level">{{ item.curso.nivel }}</span>
-                    </div>
-
-                    <div class="course-details">
-                        <p><strong>Duracion:</strong> {{ item.curso.duracion_horas }} horas</p>
-                        <p><strong>Precio:</strong> ${{ "%.2f" | format(item.curso.precio) }}</p>
-                        <p><strong>Modalidad:</strong> {{ item.curso.modalidad }}</p>
-                        <p><strong>Plataforma:</strong> {{ item.curso.plataforma }}</p>
-                        <p><strong>Rating:</strong> 
-                            <span class="rating">{{ "%.1f" | format(item.curso.rating) }} / 5.0</span>
-                        </p>
-                    </div>
-
-                    {% if item.curso.tags %}
-                    <div class="course-tags">
-                        {% for tag in item.curso.tags %}
-                            <span class="tag">{{ tag }}</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    <div class="course-score">
-                        <small>Score de recomendacion: {{ "%.3f" | format(item.score) }}</small>
-                    </div>
+{% if recomendaciones %}
+    <!-- ── CARRUSEL: Altamente Recomendados ── -->
+    {% set altos = recomendaciones | selectattr("es_alto") | list %}
+    {% if altos %}
+    <section class="carousel-section">
+        <h3 class="carousel-title">
+            <i class="fa-solid fa-fire"></i> Altamente Recomendados
+        </h3>
+        <div class="carousel-track">
+            {% for item in altos %}
+            <div class="course-card {% if item.es_alto %}card-highlight{% endif %}"
+                 onclick="openModal({{ loop.index0 }}, 'altos')">
+                <div class="card-badge">
+                    <i class="fa-solid fa-star"></i> {{ "%.1f" | format(item.curso.rating) }}
                 </div>
+                <div class="card-body">
+                    <span class="card-category">{{ item.curso.categoria }}</span>
+                    <h4 class="card-title">{{ item.curso.nombre }}</h4>
+                    <div class="card-meta">
+                        <span><i class="fa-solid fa-layer-group"></i> {{ item.curso.nivel }}</span>
+                        <span><i class="fa-solid fa-clock"></i> {{ item.curso.duracion_horas }}h</span>
+                    </div>
+                    <p class="card-price">${{ "%.2f" | format(item.curso.precio) }}</p>
+                </div>
+            </div>
             {% endfor %}
         </div>
-    {% else %}
-        <div class="no-results">
-            <h3>No se encontraron recomendaciones</h3>
-            <p>Intenta relajar tus criterios de busqueda para obtener mas resultados.</p>
-        </div>
+    </section>
     {% endif %}
 
-    <div class="actions">
-        <a href="{{ url_for('controller.index') }}" class="btn btn-secondary">
-            Nueva Busqueda
-        </a>
+    <!-- ── CARRUSELES POR CATEGORIA ── -->
+    {% for categoria, items in carruseles.items() %}
+    <section class="carousel-section">
+        <h3 class="carousel-title">
+            <i class="fa-solid fa-folder-open"></i> {{ categoria }}
+        </h3>
+        <div class="carousel-track">
+            {% for item in items %}
+            <div class="course-card"
+                 onclick="openModal({{ loop.index0 }}, 'cat_{{ loop.index0 }}_{{ categoria | replace(' ', '_') }}')">
+                <div class="card-badge">
+                    <i class="fa-solid fa-star"></i> {{ "%.1f" | format(item.curso.rating) }}
+                </div>
+                <div class="card-body">
+                    <span class="card-category">{{ item.curso.categoria }}</span>
+                    <h4 class="card-title">{{ item.curso.nombre }}</h4>
+                    <div class="card-meta">
+                        <span><i class="fa-solid fa-layer-group"></i> {{ item.curso.nivel }}</span>
+                        <span><i class="fa-solid fa-clock"></i> {{ item.curso.duracion_horas }}h</span>
+                    </div>
+                    <p class="card-price">${{ "%.2f" | format(item.curso.precio) }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+
+    <!-- ── CARRUSEL: Relacionados a tu Carrera ── -->
+    {% if relacionados_profesion %}
+    <section class="carousel-section">
+        <h3 class="carousel-title">
+            <i class="fa-solid fa-briefcase"></i> Relacionado a tu carrera
+            {% if usuario.profesion %}
+                <span class="career-label">{{ usuario.profesion }}</span>
+            {% endif %}
+        </h3>
+        <div class="carousel-track">
+            {% for item in relacionados_profesion %}
+            <div class="course-card"
+                 onclick="openModal({{ loop.index0 }}, 'profesion')">
+                <div class="card-badge">
+                    <i class="fa-solid fa-star"></i> {{ "%.1f" | format(item.curso.rating) }}
+                </div>
+                <div class="card-body">
+                    <span class="card-category">{{ item.curso.categoria }}</span>
+                    <h4 class="card-title">{{ item.curso.nombre }}</h4>
+                    <div class="card-meta">
+                        <span><i class="fa-solid fa-layer-group"></i> {{ item.curso.nivel }}</span>
+                        <span><i class="fa-solid fa-clock"></i> {{ item.curso.duracion_horas }}h</span>
+                    </div>
+                    <p class="card-price">${{ "%.2f" | format(item.curso.precio) }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+{% else %}
+    <div class="no-results">
+        <i class="fa-solid fa-magnifying-glass fa-3x"></i>
+        <h3>No se encontraron recomendaciones</h3>
+        <p>Intenta ampliar tu presupuesto, tiempo disponible, o selecciona otra categoria.</p>
+    </div>
+{% endif %}
+
+<!-- Boton nueva busqueda -->
+<div class="results-footer">
+    <a href="{{ url_for('controller.index') }}" class="btn-new-search">
+        <i class="fa-solid fa-rotate-left"></i> Nueva busqueda
+    </a>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     MODAL DE DETALLE
+═══════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+            <span class="modal-category" id="modalCategoria"></span>
+            {% if item is defined and item.es_alto %}
+            <span class="modal-badge-alto">
+                <i class="fa-solid fa-fire"></i> Altamente Recomendado
+            </span>
+            {% endif %}
+            <h2 class="modal-title" id="modalNombre"></h2>
+            <div class="modal-rating" id="modalRating"></div>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-info-grid">
+                <div class="modal-info-item">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <div>
+                        <span class="info-label">Nivel</span>
+                        <span class="info-value" id="modalNivel"></span>
+                    </div>
+                </div>
+                <div class="modal-info-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <span class="info-label">Duracion</span>
+                        <span class="info-value" id="modalDuracion"></span>
+                    </div>
+                </div>
+                <div class="modal-info-item">
+                    <i class="fa-solid fa-circle-play"></i>
+                    <div>
+                        <span class="info-label">Modalidad</span>
+                        <span class="info-value" id="modalModalidad"></span>
+                    </div>
+                </div>
+                <div class="modal-info-item">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <div>
+                        <span class="info-label">Plataforma</span>
+                        <span class="info-value" id="modalPlataforma"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-description">
+                <h4><i class="fa-solid fa-book-open"></i> Lo que aprenderas</h4>
+                <div class="modal-tags" id="modalTags"></div>
+            </div>
+
+            <div class="modal-footer-row">
+                <div class="modal-price" id="modalPrecio"></div>
+                <a class="btn-ir-curso" id="modalLink" href="#" target="_blank">
+                    Ir al curso <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Datos de cursos para el modal (JSON embebido) -->
+<script>
+// Links directos por plataforma
+const PLATFORM_LINKS = {
+    "Udemy":            "https://www.udemy.com",
+    "Coursera":         "https://www.coursera.org",
+    "Platzi":           "https://platzi.com",
+    "edX":              "https://www.edx.org",
+    "Skillshare":       "https://www.skillshare.com",
+    "DataCamp":         "https://www.datacamp.com",
+    "freeCodeCamp":     "https://www.freecodecamp.org",
+    "Udacity":          "https://www.udacity.com",
+    "LinkedIn Learning":"https://www.linkedin.com/learning",
+};
+
+// Descripcion automatica por categoria
+const CATEGORY_DESC = {
+    "Programacion":  "Aprende a desarrollar software, resolver problemas logicos y crear aplicaciones desde cero o mejorar tus habilidades existentes.",
+    "Datos":         "Explora el mundo del analisis de datos, machine learning e inteligencia artificial para tomar decisiones basadas en datos.",
+    "Diseno":        "Desarrolla habilidades creativas para crear interfaces, experiencias de usuario y piezas graficas de alto impacto.",
+    "Marketing":     "Aprende estrategias digitales para hacer crecer marcas, aumentar ventas y conectar con audiencias en linea.",
+    "Negocios":      "Adquiere herramientas de gestion, liderazgo y estrategia empresarial para impulsar tu carrera o emprendimiento.",
+    "Idiomas":       "Mejora tu comunicacion en otros idiomas para abrir puertas profesionales y personales a nivel global.",
+};
+
+// Todos los cursos de todos los carruseles embebidos como JSON
+const ALL_COURSES = {
+    "altos": [
+        {% set altos = recomendaciones | selectattr("es_alto") | list %}
+        {% for item in altos %}
+        {
+            nombre:    {{ item.curso.nombre | tojson }},
+            categoria: {{ item.curso.categoria | tojson }},
+            nivel:     {{ item.curso.nivel | tojson }},
+            duracion:  {{ item.curso.duracion_horas }},
+            precio:    {{ item.curso.precio }},
+            modalidad: {{ item.curso.modalidad | tojson }},
+            plataforma:{{ item.curso.plataforma | tojson }},
+            rating:    {{ item.curso.rating }},
+            tags:      {{ item.curso.tags | tojson }},
+            es_alto:   {{ item.es_alto | tojson }},
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "profesion": [
+        {% for item in relacionados_profesion %}
+        {
+            nombre:    {{ item.curso.nombre | tojson }},
+            categoria: {{ item.curso.categoria | tojson }},
+            nivel:     {{ item.curso.nivel | tojson }},
+            duracion:  {{ item.curso.duracion_horas }},
+            precio:    {{ item.curso.precio }},
+            modalidad: {{ item.curso.modalidad | tojson }},
+            plataforma:{{ item.curso.plataforma | tojson }},
+            rating:    {{ item.curso.rating }},
+            tags:      {{ item.curso.tags | tojson }},
+            es_alto:   {{ item.es_alto | tojson }},
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ],
+    {% for categoria, items in carruseles.items() %}
+    {% for item in items %}
+    "cat_{{ loop.index0 }}_{{ categoria | replace(' ', '_') }}": [
+        {
+            nombre:    {{ item.curso.nombre | tojson }},
+            categoria: {{ item.curso.categoria | tojson }},
+            nivel:     {{ item.curso.nivel | tojson }},
+            duracion:  {{ item.curso.duracion_horas }},
+            precio:    {{ item.curso.precio }},
+            modalidad: {{ item.curso.modalidad | tojson }},
+            plataforma:{{ item.curso.plataforma | tojson }},
+            rating:    {{ item.curso.rating }},
+            tags:      {{ item.curso.tags | tojson }},
+            es_alto:   {{ item.es_alto | tojson }},
+        }
+    ],
+    {% endfor %}
+    {% endfor %}
+};
+
+function openModal(index, group) {
+    // Buscar el curso correcto
+    let curso = null;
+    if (ALL_COURSES[group]) {
+        curso = ALL_COURSES[group][index];
+    } else {
+        // Buscar en carruseles por categoria
+        for (const key in ALL_COURSES) {
+            if (key.includes(group)) {
+                curso = ALL_COURSES[key][index];
+                break;
+            }
+        }
+    }
+    if (!curso) return;
+
+    // Llenar el modal
+    document.getElementById('modalNombre').textContent    = curso.nombre;
+    document.getElementById('modalCategoria').textContent = curso.categoria;
+    document.getElementById('modalNivel').textContent     = curso.nivel;
+    document.getElementById('modalDuracion').textContent  = curso.duracion + ' horas';
+    document.getElementById('modalModalidad').textContent = curso.modalidad === 'Sincrono' ? 'En vivo' : 'A mi ritmo';
+    document.getElementById('modalPlataforma').textContent = curso.plataforma;
+    document.getElementById('modalPrecio').textContent    = '$' + curso.precio.toFixed(2) + ' USD';
+
+    // Rating con estrellas
+    const stars = Math.round(curso.rating);
+    let starsHtml = '';
+    for (let i = 0; i < 5; i++) {
+        starsHtml += i < stars
+            ? '<i class="fa-solid fa-star"></i>'
+            : '<i class="fa-regular fa-star"></i>';
+    }
+    document.getElementById('modalRating').innerHTML = starsHtml + ' <span>' + curso.rating.toFixed(1) + ' / 5.0</span>';
+
+    // Tags / lo que aprenderas
+    const tagsHtml = curso.tags.map(t =>
+        '<span class="modal-tag"><i class="fa-solid fa-check"></i> ' + t + '</span>'
+    ).join('');
+    document.getElementById('modalTags').innerHTML = tagsHtml ||
+        '<p>' + (CATEGORY_DESC[curso.categoria] || 'Curso especializado en ' + curso.categoria) + '</p>';
+
+    // Link a la plataforma
+    const link = PLATFORM_LINKS[curso.plataforma] || '#';
+    document.getElementById('modalLink').href = link;
+
+    // Mostrar modal
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Cerrar con ESC
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+});
+</script>
+
 {% endblock %}
