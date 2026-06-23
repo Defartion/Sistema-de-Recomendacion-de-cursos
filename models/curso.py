@@ -36,6 +36,7 @@ class Curso:
     modalidad: str
     plataforma: str
     rating: float
+    url: str = ""
     tags: List[str] = field(default_factory=list)
 
     def __post_init__(self):
@@ -64,6 +65,7 @@ class Curso:
             "modalidad": self.modalidad,
             "plataforma": self.plataforma,
             "rating": self.rating,
+            "url": self.url,
             "tags": self.tags,
         }
 
@@ -88,6 +90,7 @@ class Curso:
             modalidad=data["modalidad"],
             plataforma=data["plataforma"],
             rating=data["rating"],
+            url=data.get("url", ""),
             tags=data.get("tags", []),
         )
 

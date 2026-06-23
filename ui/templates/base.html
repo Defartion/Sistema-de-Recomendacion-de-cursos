@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sistema de Recomendacion de Cursos{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1>Sistema de Recomendacion de Cursos Online</h1>
-            <p class="subtitle">Encuentra el curso perfecto para ti</p>
+            <h1>EduPath</h1>
+            <p class="subtitle">Tu camino hacia la educación</p>
         </header>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
         {% endwith %}
 
         <main>
@@ -32,5 +35,7 @@
             <p>Proyecto de Lenguajes de Programacion - Equipo 4</p>
         </footer>
     </div>
+    {% block scripts %}{% endblock %}
 </body>
+
 </html>
