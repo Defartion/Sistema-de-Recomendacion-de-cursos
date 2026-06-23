@@ -36,11 +36,11 @@ proyecto_recomendador_cursos/
 |   |   |-- resultado.html
 |   |-- static/css/style.css    # Estilos
 |-- data/
-|   |-- cursos.json              # Base de conocimiento de cursos
+|   |-- data/cursos.json              # Base de conocimiento de 54 cursos [Nota: La documentación original mencionaba 15 cursos.]
 |-- tests/
 |   |-- test_processor.py        # Pruebas del modulo funcional
 |   |-- test_logic_rules.py      # Pruebas del modulo logico
-|   |-- test_controller.py       # Pruebas del controlador
+|   |-- test_controller.py       # Pruebas del controlador [Nota: El test hace referencia a una función `crear_app()` que no se encuentra en `app.py`.]
 |-- docs/dominio.md              # Documentacion del dominio
 |-- requirements.txt             # Dependencias
 ```

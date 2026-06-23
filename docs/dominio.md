@@ -48,7 +48,6 @@ El usuario interactúa con el sistema proporcionando sus preferencias de búsque
 
 4. **Regla de Alta Recomendación:** Un curso es **altamente recomendado** si cumple las 3 reglas anteriores Y su `rating` es **mayor o igual a 4.0**.
 
-5. **Regla de Relajación (fallback):** Si ningún curso cumple todas las reglas, relajar progresivamente las condiciones: primero ampliar `presupuesto_max` en un 20%, luego permitir niveles adyacentes, luego ignorar `modalidad`.
 
 ### 3.2. Representación en Pseudo-Lógica (Datalog/Kanren)
 
@@ -74,13 +73,6 @@ altamente_recomendado(C) :- recomendable(C),
                             hecho(C, _, _, _, _, _, _, _, Rating, _),
                             Rating >= 4.0.
 
-% Regla 5: Relajación progresiva
-recomendacion_alternativa(C) :- 
-    not(existe_recomendacion_estricta),
-    hecho(C, _, Cat, Nivel, Duracion, Precio, Mod, _, _, _),
-    (interes_usuario(Cat); nivel_adyacente(Nivel, NivelUsuario)),
-    Precio =< PresupuestoMax * 1.2,
-    Duracion =< TiempoDisponible.
 ```
 
 ---
@@ -89,14 +81,14 @@ recomendacion_alternativa(C) :-
 
 | Categoría | Cantidad de Cursos | Niveles Cubiertos |
 |-----------|-------------------|-------------------|
-| Programación | 3 | Principiante, Intermedio |
-| Datos | 4 | Intermedio, Avanzado |
-| Diseño | 3 | Principiante, Intermedio, Avanzado |
-| Marketing | 1 | Principiante |
-| Negocios | 1 | Intermedio |
-| Idiomas | 1 | Intermedio |
+| Programación | 15 | Principiante, Intermedio, Avanzado |
+| Datos | 10 | Principiante, Intermedio, Avanzado |
+| Diseño | 8 | Principiante, Intermedio, Avanzado |
+| Marketing | 7 | Principiante, Intermedio |
+| Negocios | 8 | Principiante, Intermedio |
+| Idiomas | 6 | Principiante, Intermedio |
 
-**Total de cursos en la base de conocimiento:** 15 cursos.
+**Total de cursos en la base de conocimiento:** 54 cursos.
 
 ---
 

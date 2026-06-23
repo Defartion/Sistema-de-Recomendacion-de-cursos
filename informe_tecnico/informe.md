@@ -32,7 +32,7 @@ El proposito de este proyecto es desarrollar un sistema web de recomendacion int
 ### Alcance
 
 El sistema incluye:
-- Base de conocimiento con 15 cursos reales en 6 categorias.
+- Base de conocimiento con 54 cursos reales en diversas categorías. [Nota: La documentación original mencionaba 15 cursos, pero el archivo `cursos.json` contiene 54.]
 - Interfaz web funcional para ingreso de preferencias.
 - Motor de recomendacion basado en reglas logicas de inferencia.
 - Filtrado y ranking funcional de cursos.
@@ -104,7 +104,7 @@ Se selecciono **Flask** como framework web por su ligereza, curva de aprendizaje
 | Procesador | `processor/processor.py` | Filtrado funcional, calculo de score, ranking | Funcional |
 | Reglas Logicas | `logic_rules/logic_rules.py` | Inferencia de recomendaciones basada en reglas | Logico |
 | Vista | `ui/templates/` | Plantillas HTML para formulario y resultados | Presentacion |
-| Datos | `data/cursos.json` | Base de conocimiento de 15 cursos | Persistencia |
+| Datos | `data/cursos.json` | Base de conocimiento de 54 cursos | Persistencia |
 
 ### 3.3 Prototipo Clickeable en Figma
 
@@ -159,7 +159,7 @@ def calcular_score(cursos, tags_usuario):
 
 ### 4.3 Uso del Paradigma Logico
 
-El modulo `logic_rules.py` define reglas de inferencia sobre la base de conocimiento. Aunque la implementacion actual usa Python nativo para compatibilidad con `kanren` en Python 3.13, la estructura mantiene la semantica declarativa del paradigma logico: hechos (cursos) y reglas (compatibilidad de categoria, nivel, presupuesto, tiempo y rating).
+El modulo `logic_rules.py` define reglas de inferencia sobre la base de conocimiento. El módulo `logic_rules.py` define reglas de inferencia sobre la base de conocimiento utilizando la librería `kanren`. Se modelan hechos (cursos) y reglas (compatibilidad de categoría, nivel, presupuesto, tiempo y rating) para la inferencia lógica. La estructura mantiene la semántica declarativa del paradigma lógico.
 
 ```python
 # Fragmento de logic_rules.py (logico)
@@ -226,7 +226,7 @@ Todas las pruebas pasan exitosamente, demostrando la robustez y funcionalidad de
 
 - Se logro integrar exitosamente los tres paradigmas de programacion en un unico sistema funcional.
 - La arquitectura MVC adaptada permite una clara separacion de responsabilidades y facilita el mantenimiento.
-- El sistema procesa recomendaciones en tiempo real con una base de conocimiento de 15 cursos.
+- El sistema procesa recomendaciones en tiempo real con una base de conocimiento de 54 cursos.
 
 ### Dificultades Tecnicas
 
