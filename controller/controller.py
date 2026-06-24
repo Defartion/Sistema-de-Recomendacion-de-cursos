@@ -1,8 +1,5 @@
 """
 Modulo controlador (paradigma imperativo/OO).
-
-Este modulo orquesta las peticiones HTTP, coordina el llamado a los 
-modulos funcionales y logicos, y renderiza las vistas correspondientes.
 """
 
 import json
@@ -17,12 +14,10 @@ from processor.processor import procesar_recomendaciones
 from logic_rules.logic_rules import inferir_recomendaciones
 
 logger = logging.getLogger(__name__)
-
 controller_bp = Blueprint("controller", __name__, template_folder="ui/templates")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CURSOS_JSON = os.path.join(BASE_DIR, "data", "cursos.json")
-
 _catalogo_cursos: List[Curso] = []
 
 
@@ -35,7 +30,6 @@ def _cargar_catalogo() -> List[Curso]:
     return _catalogo_cursos
 
 
-# Mapa de profesion -> categorias relacionadas
 PROFESION_CATEGORIA = {
     "ingenieria": ["Programacion", "Datos"],
     "sistemas": ["Programacion", "Datos"],
@@ -64,7 +58,6 @@ PROFESION_CATEGORIA = {
 
 
 def _categorias_por_profesion(profesion: str) -> List[str]:
-    """Infiere categorias relacionadas a la profesion del usuario."""
     profesion_lower = profesion.lower()
     categorias = []
     for keyword, cats in PROFESION_CATEGORIA.items():
@@ -77,20 +70,19 @@ def _categorias_por_profesion(profesion: str) -> List[str]:
 
 @controller_bp.route("/")
 def index():
-    logger.info("Solicitud GET a la pagina principal")
     return render_template("index.html")
 
 
 @controller_bp.route("/recomendar", methods=["POST"])
 def recomendar():
     try:
-        # Datos del formulario — campos nuevos del onboarding
+        # Datos del onboarding
         nombre    = request.form.get("nombre", "").strip()
         edad      = request.form.get("edad", "").strip()
         sexo      = request.form.get("sexo", "").strip()
         profesion = request.form.get("profesion", "").strip()
 
-        # Campos de preferencias
+        # Preferencias
         categoria  = request.form.get("categoria", "").strip()
         nivel      = request.form.get("nivel", "").strip()
         presupuesto = request.form.get("presupuesto", "0")
@@ -98,12 +90,6 @@ def recomendar():
         modalidad  = request.form.get("modalidad", "").strip()
         tags       = request.form.get("tags", "").strip()
 
-        logger.info(
-            f"Recomendacion para: {nombre}, profesion={profesion}, "
-            f"categoria={categoria}, nivel={nivel}, modalidad={modalidad}"
-        )
-
-        # Validacion de campos obligatorios
         if not all([categoria, nivel, presupuesto, tiempo, modalidad]):
             flash("Por favor completa todos los campos obligatorios.", "error")
             return redirect(url_for("controller.index"))
@@ -120,10 +106,9 @@ def recomendar():
             return redirect(url_for("controller.index"))
 
         tags_list = [t.strip() for t in tags.split(",") if t.strip()]
-
         catalogo = _cargar_catalogo()
 
-        # ── Paso 1: Inferencia logica ──
+        # ── Altamente recomendados: cursos que cumplen todos los criterios ──
         preferencias = {
             "categoria": categoria,
             "nivel": nivel,
@@ -134,55 +119,57 @@ def recomendar():
             preferencias, catalogo
         )
 
-        # ── Paso 2: Procesamiento funcional ──
         resultados_funcionales = procesar_recomendaciones(
             catalogo, presupuesto=presupuesto_val, tiempo=tiempo_val,
-            modalidad=modalidad, tags_usuario=tags_list, top_n=10
+            modalidad=modalidad, tags_usuario=tags_list, top_n=50
         )
 
         ids_logicos = {c.id for c in recomendados_logicos}
         ids_altos   = {c.id for c in altamente_recomendados}
 
-        combinados = []
+        recomendaciones = []
         for res in resultados_funcionales:
             curso = res["curso"]
-            combinados.append({
+            recomendaciones.append({
                 "curso": curso,
                 "score": res["score"],
                 "es_logico": curso.id in ids_logicos,
                 "es_alto": curso.id in ids_altos,
             })
 
-        combinados.sort(key=lambda x: (not x["es_alto"], -x["score"]))
+        recomendaciones.sort(key=lambda x: (not x["es_alto"], -x["score"]))
 
-        # ── Paso 3: Cursos relacionados a la profesion ──
+        # ── Carruseles por categoria: TODOS los cursos del catalogo agrupados ──
+        categorias_orden = ["Programacion", "Datos", "Diseno", "Marketing", "Negocios", "Idiomas"]
+        carruseles = {}
+        for cat in categorias_orden:
+            cursos_cat = [
+                {"curso": c, "score": c.rating / 5.0, "es_logico": False, "es_alto": c.rating >= 4.5}
+                for c in catalogo if c.categoria == cat
+            ]
+            cursos_cat.sort(key=lambda x: -x["curso"].rating)
+            if cursos_cat:
+                carruseles[cat] = cursos_cat
+
+        # ── Relacionados a la profesion ──
         cats_profesion = _categorias_por_profesion(profesion) if profesion else []
-        ids_ya_mostrados = {r["curso"].id for r in combinados}
+        ids_recomendados = {r["curso"].id for r in recomendaciones}
 
         relacionados_profesion = []
         if cats_profesion:
             for curso in catalogo:
-                if curso.categoria in cats_profesion and curso.id not in ids_ya_mostrados:
-                    if curso.precio <= presupuesto_val and curso.duracion_horas <= tiempo_val:
-                        relacionados_profesion.append({
-                            "curso": curso,
-                            "score": curso.rating / 5.0,
-                            "es_logico": False,
-                            "es_alto": curso.rating >= 4.5,
-                        })
-            relacionados_profesion.sort(key=lambda x: -x["score"])
-
-        # ── Agrupar por categoria para los carruseles ──
-        carruseles = {}
-        for item in combinados:
-            cat = item["curso"].categoria
-            if cat not in carruseles:
-                carruseles[cat] = []
-            carruseles[cat].append(item)
+                if curso.categoria in cats_profesion and curso.id not in ids_recomendados:
+                    relacionados_profesion.append({
+                        "curso": curso,
+                        "score": curso.rating / 5.0,
+                        "es_logico": False,
+                        "es_alto": curso.rating >= 4.5,
+                    })
+            relacionados_profesion.sort(key=lambda x: -x["curso"].rating)
 
         return render_template(
             "resultado.html",
-            recomendaciones=combinados,
+            recomendaciones=recomendaciones,
             carruseles=carruseles,
             relacionados_profesion=relacionados_profesion,
             cats_profesion=cats_profesion,
