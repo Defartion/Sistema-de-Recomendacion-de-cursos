@@ -700,5 +700,44 @@
         "url": "https://www.udemy.com/",
         "rating": 4.5,
         "tags": ["japones", "kanji", "negocios", "avanzado", "jlpt"]
-    }
+    },
+    {
+    "id": 55,
+    "nombre": "The Complete 2024 Web Development Bootcamp",
+    "categoria": "Programacion",
+    "nivel": "Principiante",
+    "duracion_horas": 65,
+    "precio": 24.99,
+    "modalidad": "Asincrono",
+    "plataforma": "Udemy",
+    "url": "https://www.udemy.com/course/the-complete-web-development-bootcamp/",
+    "rating": 4.9,
+    "tags": ["html", "css", "javascript", "react", "nodejs", "fullstack", "web"]
+},
+{
+    "id": 56,
+    "nombre": "IBM Data Science Professional Certificate",
+    "categoria": "Datos",
+    "nivel": "Principiante",
+    "duracion_horas": 120,
+    "precio": 49.99,
+    "modalidad": "Asincrono",
+    "plataforma": "Coursera",
+    "url": "https://www.coursera.org/professional-certificates/ibm-data-science",
+    "rating": 4.9,
+    "tags": ["data science", "python", "sql", "machine learning", "ibm", "certificado"]
+},
+{
+    "id": 57,
+    "nombre": "Adobe Photoshop CC: Masterclass Completa",
+    "categoria": "Diseno",
+    "nivel": "Intermedio",
+    "duracion_horas": 45,
+    "precio": 19.99,
+    "modalidad": "Asincrono",
+    "plataforma": "Udemy",
+    "url": "https://www.udemy.com/course/photoshop-tutorial/",
+    "rating": 4.9,
+    "tags": ["photoshop", "retoque", "diseno grafico", "adobe", "composicion", "efectos"]
+}
 ]
