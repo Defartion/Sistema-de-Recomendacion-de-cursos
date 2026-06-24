@@ -94,6 +94,8 @@ def recomendar():
         MODALIDAD_MAP = {"A mi ritmo": "Asincrona", "En vivo": "Sincro"}
         modalidad_raw = modalidad
         modalidad = MODALIDAD_MAP.get(modalidad, modalidad)
+        print(f"[DEBUG] modalidad_raw={modalidad_raw}, modalidad={modalidad}")
+        print(f"[DEBUG] categoria={categoria}, nivel={nivel}, presupuesto={presupuesto_val}, tiempo={tiempo_val}")
 
         if not all([categoria, nivel, presupuesto, tiempo, modalidad]):
             flash("Por favor completa todos los campos obligatorios.", "error")
