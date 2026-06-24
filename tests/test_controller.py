@@ -20,7 +20,7 @@ class TestRutasBasicas:
         """Test que la pagina principal responde con 200."""
         response = client.get("/")
         assert response.status_code == 200
-        assert b"Sistema de Recomendacion" in response.data
+        assert b"EduPath" in response.data
 
     def test_get_index_contiene_formulario(self, client):
         """Test que la pagina principal contiene el formulario."""

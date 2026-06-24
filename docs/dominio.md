@@ -102,3 +102,4 @@ El sistema debe permitir al usuario:
    - **Filtrado funcional** (presupuesto, tiempo, modalidad).
    - **Inferencia lógica** (reglas de compatibilidad de categoría/nivel y alta recomendación).
    - **Orquestación imperativa** (flujo de control, manejo de excepciones, respuesta HTTP).
+\n## Base de conocimiento\n\nEl sistema cuenta con un catálogo de **57 cursos** distribuidos en 6 categorias principales:\n\n| Categoría | No. de Cursos |\n|-----------|---------------|\n| Programacion | 10 |\n| Datos | 10 |\n| Diseno | 10 |\n| Marketing | 9 |\n| Negocios | 9 |\n| Idiomas | 9 |\n| **Total** |volatile | **57** |\n

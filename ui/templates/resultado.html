@@ -3,365 +3,380 @@
 {% block title %}Recomendaciones - EduPath{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/resultado.css') }}">
+<div class="max-w-6xl mx-auto px-4 py-8">
 
-<!-- Saludo personalizado -->
-<div class="results-header">
-    {% if usuario.nombre %}
-    <h2>Hola, {{ usuario.nombre }} <i class="fa-solid fa-hand-wave"></i></h2>
-    <p class="results-subtitle">Estas son las mejores opciones para ti basadas en tus preferencias.</p>
+  <!-- Header personalizado -->
+  <div class="mb-8 animate-fade-up">
+    {% if usuario and usuario.nombre %}
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-400 to-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+        {{ usuario.nombre[0]|upper }}
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-white">Hola, {{ usuario.nombre }} <i class="fa-solid fa-hand-wave text-yellow-400"></i></h2>
+        <p class="text-slate-400 text-sm mt-0.5">Estas son las mejores opciones para ti basadas en tus preferencias.</p>
+      </div>
+    </div>
     {% else %}
-    <h2>Tus recomendaciones <i class="fa-solid fa-graduation-cap"></i></h2>
+    <h2 class="text-2xl font-bold text-white">Tus Recomendaciones <i class="fa-solid fa-graduation-cap text-brand-400"></i></h2>
     {% endif %}
-</div>
+  </div>
 
-{% if recomendaciones %}
+  <!-- Chips de preferencias -->
+  {% if preferencias %}
+  <div class="flex flex-wrap gap-2 mb-10 animate-fade-up">
+    {% if preferencias.get('categoria') %}
+    <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-300 border border-brand-500/30">
+      <i class="fa-solid fa-folder-open mr-1"></i> {{ preferencias.categoria }}
+    </span>
+    {% endif %}
+    {% if preferencias.get('nivel') %}
+    <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+      <i class="fa-solid fa-layer-group mr-1"></i> {{ preferencias.nivel }}
+    </span>
+    {% endif %}
+    {% if preferencias.get('presupuesto') is not none %}
+    <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+      <i class="fa-solid fa-dollar-sign mr-1"></i> {{ "%.2f"|format(preferencias.presupuesto) }} USD
+    </span>
+    {% endif %}
+    {% if preferencias.get('tiempo') %}
+    <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+      <i class="fa-solid fa-clock mr-1"></i> {{ preferencias.tiempo }}h
+    </span>
+    {% endif %}
+    {% if preferencias.get('modalidad') %}
+    <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+      <i class="fa-solid fa-circle-play mr-1"></i> {{ preferencias.modalidad }}
+    </span>
+    {% endif %}
+    {% if preferencias.get('tags') %}
+      {% for tag in preferencias.tags %}
+      <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+        <i class="fa-solid fa-tag mr-1"></i> {{ tag }}
+      </span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% endif %}
 
-<!-- 1. Altamente Recomendados -->
-{% set altos = recomendaciones | selectattr("es_alto") | list %}
-{% if altos %}
-<section class="carousel-section">
-    <h3 class="carousel-title">
-        <i class="fa-solid fa-fire"></i> Altamente Recomendados
+  {% if recomendaciones %}
+
+  <!-- 1. Altamente Recomendados -->
+  {% set altos = recomendaciones | selectattr("es_alto") | list %}
+  {% if altos %}
+  <section class="mb-10 animate-fade-up">
+    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-fire text-orange-400"></i> Altamente Recomendados
     </h3>
-    <div class="carousel-track">
-        {% for item in altos %}
-        <div class="course-card card-highlight" onclick="openModal({{ item.curso.id }})">
-            <div class="card-badge">
-                <i class="fa-solid fa-star"></i> {{ "%.1f" | format(item.curso.rating) }}
-            </div>
-            <div class="card-body">
-                <span class="card-category">{{ item.curso.categoria }}</span>
-                <h4 class="card-title">{{ item.curso.nombre }}</h4>
-                <div class="card-meta">
-                    <span><i class="fa-solid fa-layer-group"></i> {{ item.curso.nivel }}</span>
-                    <span><i class="fa-solid fa-clock"></i> {{ item.curso.duracion_horas }}h</span>
-                </div>
-                <p class="card-price">{% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f" |
-                    format(item.curso.precio) }}{% endif %}</p>
-            </div>
+    <div class="carousel-scroll">
+      {% for item in altos %}
+      <div class="course-card-tw highlight" onclick="openModal({{ item.curso.id }})">
+        <div class="absolute top-3 right-3 bg-black/60 text-amber-300 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+          <i class="fa-solid fa-star"></i> {{ "%.1f"|format(item.curso.rating) }}
         </div>
-        {% endfor %}
+        <div class="p-4 pt-10">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-400">{{ item.curso.categoria }}</span>
+          <h4 class="text-white font-semibold mt-1 mb-2 line-clamp-2">{{ item.curso.nombre }}</h4>
+          <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
+            <span><i class="fa-solid fa-layer-group mr-1"></i>{{ item.curso.nivel }}</span>
+            <span><i class="fa-solid fa-clock mr-1"></i>{{ item.curso.duracion_horas }}h</span>
+          </div>
+          <p class="text-white font-bold text-sm">
+            {% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f"|format(item.curso.precio) }}{% endif %}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
     </div>
-</section>
-{% endif %}
+  </section>
+  {% endif %}
 
-<!-- 2. Relacionados a tu carrera -->
-{% if relacionados_profesion %}
-<section class="carousel-section">
-    <h3 class="carousel-title">
-        <i class="fa-solid fa-briefcase"></i> Relacionado a tu carrera
-        {% if usuario.profesion %}
-        <span class="career-label">{{ usuario.profesion }}</span>
-        {% endif %}
+  <!-- 2. Relacionado a tu carrera -->
+  {% if relacionados_profesion %}
+  <section class="mb-10 animate-fade-up">
+    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-briefcase text-blue-400"></i> Relacionado a tu carrera
+      {% if usuario and usuario.profesion %}
+      <span class="text-xs font-medium bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full">{{ usuario.profesion }}</span>
+      {% endif %}
     </h3>
-    <div class="carousel-track">
-        {% for item in relacionados_profesion %}
-        <div class="course-card" onclick="openModal({{ item.curso.id }})">
-            <div class="card-badge">
-                <i class="fa-solid fa-star"></i> {{ "%.1f" | format(item.curso.rating) }}
-            </div>
-            <div class="card-body">
-                <span class="card-category">{{ item.curso.categoria }}</span>
-                <h4 class="card-title">{{ item.curso.nombre }}</h4>
-                <div class="card-meta">
-                    <span><i class="fa-solid fa-layer-group"></i> {{ item.curso.nivel }}</span>
-                    <span><i class="fa-solid fa-clock"></i> {{ item.curso.duracion_horas }}h</span>
-                </div>
-                <p class="card-price">{% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f" |
-                    format(item.curso.precio) }}{% endif %}</p>
-            </div>
+    <div class="carousel-scroll">
+      {% for item in relacionados_profesion %}
+      <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
+        <div class="absolute top-3 right-3 bg-black/60 text-amber-300 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+          <i class="fa-solid fa-star"></i> {{ "%.1f"|format(item.curso.rating) }}
         </div>
-        {% endfor %}
+        <div class="p-4 pt-10">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-400">{{ item.curso.categoria }}</span>
+          <h4 class="text-white font-semibold mt-1 mb-2 line-clamp-2">{{ item.curso.nombre }}</h4>
+          <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
+            <span><i class="fa-solid fa-layer-group mr-1"></i>{{ item.curso.nivel }}</span>
+            <span><i class="fa-solid fa-clock mr-1"></i>{{ item.curso.duracion_horas }}h</span>
+          </div>
+          <p class="text-white font-bold text-sm">
+            {% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f"|format(item.curso.precio) }}{% endif %}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
     </div>
-</section>
-{% endif %}
+  </section>
+  {% endif %}
 
-<!-- 3. Mejor Valorados (rating >= 4.7, todos los cursos) -->
-{% set mejor_valorados = mejor_valorados %}
-{% if mejor_valorados %}
-<section class="carousel-section">
-    <h3 class="carousel-title">
-        <i class="fa-solid fa-medal"></i> Mejor Valorados
+  <!-- 3. Mejor Valorados -->
+  {% if mejor_valorados %}
+  <section class="mb-10 animate-fade-up">
+    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-medal text-yellow-400"></i> Mejor Valorados
     </h3>
-    <div class="carousel-track">
-        {% for item in mejor_valorados %}
-        <div class="course-card" onclick="openModal({{ item.curso.id }})">
-            <div class="card-badge">
-                <i class="fa-solid fa-star"></i> {{ "%.1f" | format(item.curso.rating) }}
-            </div>
-            <div class="card-body">
-                <span class="card-category">{{ item.curso.categoria }}</span>
-                <h4 class="card-title">{{ item.curso.nombre }}</h4>
-                <div class="card-meta">
-                    <span><i class="fa-solid fa-layer-group"></i> {{ item.curso.nivel }}</span>
-                    <span><i class="fa-solid fa-clock"></i> {{ item.curso.duracion_horas }}h</span>
-                </div>
-                <p class="card-price">{% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f" |
-                    format(item.curso.precio) }}{% endif %}</p>
-            </div>
+    <div class="carousel-scroll">
+      {% for item in mejor_valorados %}
+      <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
+        <div class="absolute top-3 right-3 bg-black/60 text-amber-300 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+          <i class="fa-solid fa-star"></i> {{ "%.1f"|format(item.curso.rating) }}
         </div>
-        {% endfor %}
+        <div class="p-4 pt-10">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-400">{{ item.curso.categoria }}</span>
+          <h4 class="text-white font-semibold mt-1 mb-2 line-clamp-2">{{ item.curso.nombre }}</h4>
+          <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
+            <span><i class="fa-solid fa-layer-group mr-1"></i>{{ item.curso.nivel }}</span>
+            <span><i class="fa-solid fa-clock mr-1"></i>{{ item.curso.duracion_horas }}h</span>
+          </div>
+          <p class="text-white font-bold text-sm">
+            {% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f"|format(item.curso.precio) }}{% endif %}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
     </div>
-</section>
-{% endif %}
+  </section>
+  {% endif %}
 
-<!-- 4. Carruseles por categoria -->
-{% for categoria, items in carruseles.items() %}
-<section class="carousel-section">
-    <h3 class="carousel-title">
-        <i class="fa-solid fa-folder-open"></i> {{ categoria }}
+  <!-- 4. Carruseles por categoria -->
+  {% for categoria, items in carruseles.items() %}
+  <section class="mb-10 animate-fade-up">
+    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-folder-open text-brand-400"></i> {{ categoria }}
     </h3>
-    <div class="carousel-track">
-        {% for item in items %}
-        <div class="course-card" onclick="openModal({{ item.curso.id }})">
-            <div class="card-badge">
-                <i class="fa-solid fa-star"></i> {{ "%.1f" | format(item.curso.rating) }}
-            </div>
-            <div class="card-body">
-                <span class="card-category">{{ item.curso.categoria }}</span>
-                <h4 class="card-title">{{ item.curso.nombre }}</h4>
-                <div class="card-meta">
-                    <span><i class="fa-solid fa-layer-group"></i> {{ item.curso.nivel }}</span>
-                    <span><i class="fa-solid fa-clock"></i> {{ item.curso.duracion_horas }}h</span>
-                </div>
-                <p class="card-price">{% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f" |
-                    format(item.curso.precio) }}{% endif %}</p>
-            </div>
+    <div class="carousel-scroll">
+      {% for item in items %}
+      <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
+        <div class="absolute top-3 right-3 bg-black/60 text-amber-300 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+          <i class="fa-solid fa-star"></i> {{ "%.1f"|format(item.curso.rating) }}
         </div>
-        {% endfor %}
+        <div class="p-4 pt-10">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-400">{{ item.curso.categoria }}</span>
+          <h4 class="text-white font-semibold mt-1 mb-2 line-clamp-2">{{ item.curso.nombre }}</h4>
+          <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
+            <span><i class="fa-solid fa-layer-group mr-1"></i>{{ item.curso.nivel }}</span>
+            <span><i class="fa-solid fa-clock mr-1"></i>{{ item.curso.duracion_horas }}h</span>
+          </div>
+          <p class="text-white font-bold text-sm">
+            {% if item.curso.precio == 0.0 %}Gratis{% else %}${{ "%.2f"|format(item.curso.precio) }}{% endif %}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
     </div>
-</section>
-{% endfor %}
+  </section>
+  {% endfor %}
 
-{% else %}
-<div class="no-results">
-    <i class="fa-solid fa-magnifying-glass fa-3x"></i>
-    <h3>No se encontraron recomendaciones</h3>
-    <p>Intenta ampliar tu presupuesto, tiempo disponible, o selecciona otra categoria.</p>
-</div>
-{% endif %}
+  {% else %}
+  <div class="text-center py-16 animate-fade-up">
+    <i class="fa-solid fa-magnifying-glass text-4xl text-slate-600 mb-4 block"></i>
+    <h3 class="text-xl font-bold text-slate-300 mb-2">No se encontraron recomendaciones</h3>
+    <p class="text-slate-500 text-sm">Intenta ampliar tu presupuesto, tiempo disponible, o selecciona otra categoria.</p>
+  </div>
+  {% endif %}
 
-<!-- 5. Banner de plataformas con logos animados -->
-<section class="platforms-section">
-    <h3 class="carousel-title">
-        <i class="fa-solid fa-globe"></i> Nuestras Plataformas
+  <!-- Banner de plataformas -->
+  <section class="mb-12 animate-fade-up">
+    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-globe text-brand-400"></i> Nuestras Plataformas
     </h3>
-    <div class="platforms-track-wrapper">
-        <div class="platforms-track" id="platformsTrack">
-            <a href="https://www.udemy.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/udemy.png') }}" alt="Udemy">
-            </a>
-            <a href="https://www.coursera.org" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/coursera.png') }}" alt="Coursera">
-            </a>
-            <a href="https://platzi.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/platzi.png') }}" alt="Platzi">
-            </a>
-            <a href="https://www.edx.org" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/edx.png') }}" alt="edX">
-            </a>
-            <a href="https://www.datacamp.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/datacamp.png') }}" alt="DataCamp">
-            </a>
-            <a href="https://www.udacity.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/udacity.png') }}" alt="Udacity">
-            </a>
-            <a href="https://www.linkedin.com/learning" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/linkedin.png') }}" alt="LinkedIn Learning">
-            </a>
-            <a href="https://www.freecodecamp.org" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/freecodecamp.png') }}" alt="freeCodeCamp">
-            </a>
-            <a href="https://www.skillshare.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/skillshare.png') }}" alt="Skillshare">
-            </a>
-            <!-- Duplicado para loop infinito -->
-            <a href="https://www.udemy.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/udemy.png') }}" alt="Udemy">
-            </a>
-            <a href="https://www.coursera.org" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/coursera.png') }}" alt="Coursera">
-            </a>
-            <a href="https://platzi.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/platzi.png') }}" alt="Platzi">
-            </a>
-            <a href="https://www.edx.org" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/edx.png') }}" alt="edX">
-            </a>
-            <a href="https://www.datacamp.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/datacamp.png') }}" alt="DataCamp">
-            </a>
-            <a href="https://www.udacity.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/udacity.png') }}" alt="Udacity">
-            </a>
-            <a href="https://www.linkedin.com/learning" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/linkedin.png') }}" alt="LinkedIn Learning">
-            </a>
-            <a href="https://www.freecodecamp.org" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/freecodecamp.png') }}" alt="freeCodeCamp">
-            </a>
-            <a href="https://www.skillshare.com" target="_blank" class="platform-logo-link">
-                <img src="{{ url_for('static', filename='img/logos/skillshare.png') }}" alt="Skillshare">
-            </a>
-        </div>
+    <div class="logos-wrapper py-4">
+      <div class="logos-track">
+        <a href="https://www.udemy.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/udemy.png') }}" alt="Udemy"></a>
+        <a href="https://www.coursera.org" target="_blank"><img src="{{ url_for('static', filename='img/logos/coursera.png') }}" alt="Coursera"></a>
+        <a href="https://platzi.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/platzi.png') }}" alt="Platzi"></a>
+        <a href="https://www.edx.org" target="_blank"><img src="{{ url_for('static', filename='img/logos/edx.png') }}" alt="edX"></a>
+        <a href="https://www.datacamp.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/datacamp.png') }}" alt="DataCamp"></a>
+        <a href="https://www.udacity.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/udacity.png') }}" alt="Udacity"></a>
+        <a href="https://www.linkedin.com/learning" target="_blank"><img src="{{ url_for('static', filename='img/logos/linkedin.png') }}" alt="LinkedIn Learning"></a>
+        <a href="https://www.freecodecamp.org" target="_blank"><img src="{{ url_for('static', filename='img/logos/freecodecamp.png') }}" alt="freeCodeCamp"></a>
+        <a href="https://www.skillshare.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/skillshare.png') }}" alt="Skillshare"></a>
+        <!-- Duplicados para bucle infinito -->
+        <a href="https://www.udemy.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/udemy.png') }}" alt="Udemy"></a>
+        <a href="https://www.coursera.org" target="_blank"><img src="{{ url_for('static', filename='img/logos/coursera.png') }}" alt="Coursera"></a>
+        <a href="https://platzi.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/platzi.png') }}" alt="Platzi"></a>
+        <a href="https://www.edx.org" target="_blank"><img src="{{ url_for('static', filename='img/logos/edx.png') }}" alt="edX"></a>
+        <a href="https://www.datacamp.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/datacamp.png') }}" alt="DataCamp"></a>
+        <a href="https://www.udacity.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/udacity.png') }}" alt="Udacity"></a>
+        <a href="https://www.linkedin.com/learning" target="_blank"><img src="{{ url_for('static', filename='img/logos/linkedin.png') }}" alt="LinkedIn Learning"></a>
+        <a href="https://www.freecodecamp.org" target="_blank"><img src="{{ url_for('static', filename='img/logos/freecodecamp.png') }}" alt="freeCodeCamp"></a>
+        <a href="https://www.skillshare.com" target="_blank"><img src="{{ url_for('static', filename='img/logos/skillshare.png') }}" alt="Skillshare"></a>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- Boton nueva busqueda -->
-<div class="results-footer">
-    <a href="{{ url_for('controller.index') }}" class="btn-new-search">
-        <i class="fa-solid fa-rotate-left"></i> Nueva busqueda
+  <!-- Boton nueva busqueda -->
+  <div class="text-center mb-12 animate-fade-up">
+    <a href="{{ url_for('controller.index') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-semibold text-sm transition border border-slate-700">
+      <i class="fa-solid fa-rotate-left"></i> Nueva busqueda
     </a>
-</div>
+  </div>
 
-<!-- ══ MODAL ══ -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
-    <div class="modal-box" onclick="event.stopPropagation()">
-        <button class="modal-close" onclick="closeModal()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        <div class="modal-header">
-            <span class="modal-category" id="modalCategoria"></span>
-            <h2 class="modal-title" id="modalNombre"></h2>
-            <div class="modal-rating" id="modalRating"></div>
+  <!-- Modal -->
+  <div id="modalOverlay" class="modal-overlay-tw" onclick="closeModal()">
+    <div class="modal-box-tw" onclick="event.stopPropagation()">
+      <button class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-700 hover:bg-slate-600 text-slate-200 flex items-center justify-center transition" onclick="closeModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="p-6 border-b border-white/10">
+        <span id="modalCategoria" class="text-xs font-bold uppercase tracking-wider text-brand-400 block mb-1"></span>
+        <h2 id="modalNombre" class="text-xl font-bold text-white leading-tight"></h2>
+        <div id="modalRating" class="flex items-center gap-1 text-amber-400 text-sm mt-2"></div>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div class="flex items-start gap-3">
+            <i class="fa-solid fa-layer-group text-brand-400 mt-0.5"></i>
+            <div>
+              <span class="block text-xs text-slate-500 uppercase tracking-wider font-semibold">Nivel</span>
+              <span id="modalNivel" class="text-slate-200 text-sm font-semibold"></span>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="fa-solid fa-clock text-brand-400 mt-0.5"></i>
+            <div>
+              <span class="block text-xs text-slate-500 uppercase tracking-wider font-semibold">Duracion</span>
+              <span id="modalDuracion" class="text-slate-200 text-sm font-semibold"></span>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="fa-solid fa-circle-play text-brand-400 mt-0.5"></i>
+            <div>
+              <span class="block text-xs text-slate-500 uppercase tracking-wider font-semibold">Modalidad</span>
+              <span id="modalModalidad" class="text-slate-200 text-sm font-semibold"></span>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="fa-solid fa-building-columns text-brand-400 mt-0.5"></i>
+            <div>
+              <span class="block text-xs text-slate-500 uppercase tracking-wider font-semibold">Plataforma</span>
+              <span id="modalPlataforma" class="text-slate-200 text-sm font-semibold"></span>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-            <div class="modal-info-grid">
-                <div class="modal-info-item">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <div>
-                        <span class="info-label">Nivel</span>
-                        <span class="info-value" id="modalNivel"></span>
-                    </div>
-                </div>
-                <div class="modal-info-item">
-                    <i class="fa-solid fa-clock"></i>
-                    <div>
-                        <span class="info-label">Duracion</span>
-                        <span class="info-value" id="modalDuracion"></span>
-                    </div>
-                </div>
-                <div class="modal-info-item">
-                    <i class="fa-solid fa-circle-play"></i>
-                    <div>
-                        <span class="info-label">Modalidad</span>
-                        <span class="info-value" id="modalModalidad"></span>
-                    </div>
-                </div>
-                <div class="modal-info-item">
-                    <i class="fa-solid fa-building-columns"></i>
-                    <div>
-                        <span class="info-label">Plataforma</span>
-                        <span class="info-value" id="modalPlataforma"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-description">
-                <h4><i class="fa-solid fa-book-open"></i> Lo que aprenderas</h4>
-                <div class="modal-tags" id="modalTags"></div>
-            </div>
-            <div class="modal-footer-row">
-                <div class="modal-price" id="modalPrecio"></div>
-                <a class="btn-ir-curso" id="modalLink" href="#" target="_blank">
-                    Ir al curso <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-            </div>
+        <div class="mb-5">
+          <h4 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-book-open text-brand-400"></i> Lo que aprenderas
+          </h4>
+          <div id="modalTags" class="flex flex-wrap gap-2"></div>
         </div>
+        <div class="flex items-center justify-between gap-4 flex-wrap">
+          <div id="modalPrecio" class="text-2xl font-extrabold text-white"></div>
+          <a id="modalLink" href="#" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-bold text-sm transition">
+            Ir al curso <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
+
 </div>
 
 {% endblock %}
 
 {% block scripts %}
 <script>
-    const PLATFORM_LINKS = {
-        "Udemy": "https://www.udemy.com",
-        "Coursera": "https://www.coursera.org",
-        "Platzi": "https://platzi.com",
-        "edX": "https://www.edx.org",
-        "Skillshare": "https://www.skillshare.com",
-        "DataCamp": "https://www.datacamp.com",
-        "freeCodeCamp": "https://www.freecodecamp.org",
-        "Udacity": "https://www.udacity.com",
-        "LinkedIn Learning": "https://www.linkedin.com/learning",
-    };
+  const PLATFORM_LINKS = {
+    "Udemy": "https://www.udemy.com",
+    "Coursera": "https://www.coursera.org",
+    "Platzi": "https://platzi.com",
+    "edX": "https://www.edx.org",
+    "Skillshare": "https://www.skillshare.com",
+    "DataCamp": "https://www.datacamp.com",
+    "freeCodeCamp": "https://www.freecodecamp.org",
+    "Udacity": "https://www.udacity.com",
+    "LinkedIn Learning": "https://www.linkedin.com/learning",
+  };
 
-    const COURSES = {
+  const COURSES = {
 {% set seen = [] %}
 {% for item in recomendaciones %}
 {% if item.curso.id not in seen %}
 {% set _ = seen.append(item.curso.id) %}
-{{ item.curso.id }}: {
-    nombre:     {{ item.curso.nombre | tojson }},
-    categoria:  {{ item.curso.categoria | tojson }},
-    nivel:      {{ item.curso.nivel | tojson }},
-    duracion:   {{ item.curso.duracion_horas }},
-    precio:     {{ item.curso.precio }},
-    modalidad:  {{ item.curso.modalidad | tojson }},
-    plataforma: {{ item.curso.plataforma | tojson }},
-    url:        {{ item.curso.url | tojson }},
-    rating:     {{ item.curso.rating }},
-    tags:       {{ item.curso.tags | tojson }},
-},
+    {{ item.curso.id }}: {
+      nombre:     {{ item.curso.nombre | tojson }},
+      categoria:  {{ item.curso.categoria | tojson }},
+      nivel:      {{ item.curso.nivel | tojson }},
+      duracion:   {{ item.curso.duracion_horas }},
+      precio:     {{ item.curso.precio }},
+      modalidad:  {{ item.curso.modalidad | tojson }},
+      plataforma: {{ item.curso.plataforma | tojson }},
+      url:        {{ item.curso.url | tojson }},
+      rating:     {{ item.curso.rating }},
+      tags:       {{ item.curso.tags | tojson }},
+    },
 {% endif %}
 {% endfor %}
 {% for item in relacionados_profesion %}
 {% if item.curso.id not in seen %}
 {% set _ = seen.append(item.curso.id) %}
-{{ item.curso.id }}: {
-    nombre:     {{ item.curso.nombre | tojson }},
-    categoria:  {{ item.curso.categoria | tojson }},
-    nivel:      {{ item.curso.nivel | tojson }},
-    duracion:   {{ item.curso.duracion_horas }},
-    precio:     {{ item.curso.precio }},
-    modalidad:  {{ item.curso.modalidad | tojson }},
-    plataforma: {{ item.curso.plataforma | tojson }},
-    url:        {{ item.curso.url | tojson }},
-    rating:     {{ item.curso.rating }},
-    tags:       {{ item.curso.tags | tojson }},
-},
+    {{ item.curso.id }}: {
+      nombre:     {{ item.curso.nombre | tojson }},
+      categoria:  {{ item.curso.categoria | tojson }},
+      nivel:      {{ item.curso.nivel | tojson }},
+      duracion:   {{ item.curso.duracion_horas }},
+      precio:     {{ item.curso.precio }},
+      modalidad:  {{ item.curso.modalidad | tojson }},
+      plataforma: {{ item.curso.plataforma | tojson }},
+      url:        {{ item.curso.url | tojson }},
+      rating:     {{ item.curso.rating }},
+      tags:       {{ item.curso.tags | tojson }},
+    },
 {% endif %}
 {% endfor %}
-};
+  };
 
-    function openModal(id) {
-        const curso = COURSES[id];
-        if (!curso) return;
+  function openModal(id) {
+    const curso = COURSES[id];
+    if (!curso) return;
 
-        document.getElementById('modalNombre').textContent = curso.nombre;
-        document.getElementById('modalCategoria').textContent = curso.categoria;
-        document.getElementById('modalNivel').textContent = curso.nivel;
-        document.getElementById('modalDuracion').textContent = curso.duracion + ' horas';
-        document.getElementById('modalModalidad').textContent = curso.modalidad === 'Sincrono' ? 'En vivo' : 'A mi ritmo';
-        document.getElementById('modalPlataforma').textContent = curso.plataforma;
-        document.getElementById('modalPrecio').textContent = curso.precio === 0 ? 'Gratis' : '$' + curso.precio.toFixed(2) + ' USD';
+    document.getElementById('modalNombre').textContent = curso.nombre;
+    document.getElementById('modalCategoria').textContent = curso.categoria;
+    document.getElementById('modalNivel').textContent = curso.nivel;
+    document.getElementById('modalDuracion').textContent = curso.duracion + ' horas';
+    document.getElementById('modalModalidad').textContent = curso.modalidad;
+    document.getElementById('modalPlataforma').textContent = curso.plataforma;
+    document.getElementById('modalPrecio').textContent = curso.precio == 0 ? 'Gratis' : '$' + curso.precio.toFixed(2) + ' USD';
 
-        let starsHtml = '';
-        for (let i = 0; i < 5; i++) {
-            starsHtml += i < Math.round(curso.rating)
-                ? '<i class="fa-solid fa-star"></i>'
-                : '<i class="fa-regular fa-star"></i>';
-        }
-        document.getElementById('modalRating').innerHTML = starsHtml + ' <span>' + curso.rating.toFixed(1) + ' / 5.0</span>';
-
-        const tagsHtml = curso.tags.map(t =>
-            '<span class="modal-tag"><i class="fa-solid fa-check"></i> ' + t + '</span>'
-        ).join('');
-        document.getElementById('modalTags').innerHTML = tagsHtml || '<p>Curso especializado en ' + curso.categoria + '</p>';
-
-        document.getElementById('modalLink').href = curso.url || PLATFORM_LINKS[curso.plataforma] || '#';
-
-        document.getElementById('modalOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
+    let starsHtml = '';
+    for (let i = 0; i < 5; i++) {
+      starsHtml += i < curso.rating
+        ? '<i class="fa-solid fa-star"></i>'
+        : '<i class="fa-regular fa-star"></i>';
     }
+    document.getElementById('modalRating').innerHTML = starsHtml + ' <span class="text-slate-400 text-xs ml-1">' + curso.rating.toFixed(1) + ' / 5.0</span>';
 
-    function closeModal() {
-        document.getElementById('modalOverlay').classList.remove('active');
-        document.body.style.overflow = '';
-    }
+    const tagsHtml = (curso.tags || []).map(t =>
+      '<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-300 border border-brand-500/20"><i class="fa-solid fa-check text-[10px]"></i> ' + t + '</span>'
+    ).join('');
+    document.getElementById('modalTags').innerHTML = tagsHtml || '<p class="text-slate-500 text-sm">Curso especializado en ' + curso.categoria + '</p>';
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    document.getElementById('modalLink').href = curso.url || PLATFORM_LINKS[curso.plataforma] || '#';
+
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
-
 {% endblock %}

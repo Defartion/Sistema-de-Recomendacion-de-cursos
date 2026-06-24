@@ -162,30 +162,24 @@ def calcular_score(cursos, tags_usuario):
 El modulo `logic_rules.py` define reglas de inferencia sobre la base de conocimiento. El módulo `logic_rules.py` define reglas de inferencia sobre la base de conocimiento utilizando la librería `kanren`. Se modelan hechos (cursos) y reglas (compatibilidad de categoría, nivel, presupuesto, tiempo y rating) para la inferencia lógica. La estructura mantiene la semántica declarativa del paradigma lógico.
 
 ```python
-# Fragmento de logic_rules.py (logico)
+# Fragmento de logic_rules.py (logico - kanren real)
+def _construir_relaciones(cursos):
+    curso_categoria = Relation()
+    curso_nivel = Relation()
+    curso_precio = Relation()
+    for c in cursos:
+        facts(curso_categoria, (c.id, c.categoria))
+        facts(curso_nivel, (c.id, c.nivel))
+        facts(curso_precio, (c.id, c.precio))
+    return curso_categoria, curso_nivel, curso_precio
+
 def inferir_recomendaciones(preferencias, cursos):
-    categoria_usuario = preferencias.get("categoria", "")
-    nivel_usuario = preferencias.get("nivel", "")
-    presupuesto_max = preferencias.get("presupuesto_max", float("inf"))
-    tiempo_disponible = preferencias.get("tiempo_disponible", float("inf"))
-    rating_umbral = 4.0
-
-    recomendados = []
-    altamente_recomendados = []
-
-    for curso in cursos:
-        regla_categoria = curso.categoria == categoria_usuario
-        regla_nivel = _compatibilidad_nivel(curso.nivel, nivel_usuario)
-        regla_presupuesto = curso.precio <= presupuesto_max
-        regla_tiempo = curso.duracion_horas <= tiempo_disponible
-        regla_rating = curso.rating >= rating_umbral
-
-        if regla_categoria and regla_nivel and regla_presupuesto and regla_tiempo:
-            recomendados.append(curso)
-            if regla_rating:
-                altamente_recomendados.append(curso)
-
-    return recomendados, altamente_recomendados
+    cat_rel, nivel_rel, precio_rel = _construir_relaciones(cursos)
+    id_curso, nivel_c = var(), var()
+    ids = run(0, id_curso, cat_rel(id_curso, preferencias["categoria"]), nivel_rel(id_curso, nivel_c))
+    result = [c for c in cursos if c.id in ids and _compatibilidad_nivel(c.nivel, preferencias["nivel"])]
+    return result, []
+```
 
 ### 4.4 Integracion de los Modulos
 
