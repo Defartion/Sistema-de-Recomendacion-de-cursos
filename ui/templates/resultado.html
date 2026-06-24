@@ -78,7 +78,7 @@
 {% endif %}
 
 <!-- 3. Mejor Valorados (rating >= 4.7, todos los cursos) -->
-{% set mejor_valorados = recomendaciones | selectattr("curso.rating", "ge", 4.7) | list %}
+{% set mejor_valorados = mejor_valorados %}
 {% if mejor_valorados %}
 <section class="carousel-section">
     <h3 class="carousel-title">

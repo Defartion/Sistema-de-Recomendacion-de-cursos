@@ -138,6 +138,12 @@ def recomendar():
             })
 
         recomendaciones.sort(key=lambda x: (not x["es_alto"], -x["score"]))
+        mejor_valorados = [
+            {"curso": c, "score": c.rating / 5.0, "es_logico": False, "es_alto": True}
+            for c in catalogo if c.rating >= 4.7
+        ]
+        mejor_valorados.sort(key=lambda x: -x["curso"].rating)
+        
 
         # ── Carruseles por categoria: TODOS los cursos del catalogo agrupados ──
         categorias_orden = ["Programacion", "Datos", "Diseno", "Marketing", "Negocios", "Idiomas"]
@@ -170,6 +176,7 @@ def recomendar():
         return render_template(
             "resultado.html",
             recomendaciones=recomendaciones,
+            mejor_valorados=mejor_valorados,
             carruseles=carruseles,
             relacionados_profesion=relacionados_profesion,
             cats_profesion=cats_profesion,
