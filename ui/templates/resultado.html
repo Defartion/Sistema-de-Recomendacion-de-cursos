@@ -92,7 +92,15 @@
   </section>
   {% endif %}
 
-  <!-- 2. Relacionado a tu carrera -->
+  {% else %}
+  <div class="text-center py-10 animate-fade-up">
+    <i class="fa-solid fa-magnifying-glass text-4xl text-slate-600 mb-4 block"></i>
+    <h3 class="text-xl font-bold text-slate-300 mb-2">No se encontraron recomendaciones exactas</h3>
+    <p class="text-slate-500 text-sm">Intenta ampliar tu presupuesto, tiempo disponible, o selecciona otra categoria.</p>
+  </div>
+  {% endif %}
+
+  <!-- 2. Relacionado a tu carrera (siempre visible) -->
   {% if relacionados_profesion %}
   <section class="mb-10 animate-fade-up">
     <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -124,7 +132,7 @@
   </section>
   {% endif %}
 
-  <!-- 3. Mejor Valorados -->
+  <!-- 3. Mejor Valorados (siempre visible) -->
   {% if mejor_valorados %}
   <section class="mb-10 animate-fade-up">
     <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -153,7 +161,7 @@
   </section>
   {% endif %}
 
-  <!-- 4. Carruseles por categoria -->
+  <!-- 4. Carruseles por categoria (siempre visibles) -->
   {% for categoria, items in carruseles.items() %}
   <section class="mb-10 animate-fade-up">
     <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -181,14 +189,6 @@
     </div>
   </section>
   {% endfor %}
-
-  {% else %}
-  <div class="text-center py-16 animate-fade-up">
-    <i class="fa-solid fa-magnifying-glass text-4xl text-slate-600 mb-4 block"></i>
-    <h3 class="text-xl font-bold text-slate-300 mb-2">No se encontraron recomendaciones</h3>
-    <p class="text-slate-500 text-sm">Intenta ampliar tu presupuesto, tiempo disponible, o selecciona otra categoria.</p>
-  </div>
-  {% endif %}
 
   <!-- Banner de plataformas -->
   <section class="mb-12 animate-fade-up">
@@ -338,6 +338,42 @@
       tags:       {{ item.curso.tags | tojson }},
     },
 {% endif %}
+{% endfor %}
+{% for item in mejor_valorados %}
+{% if item.curso.id not in seen %}
+{% set _ = seen.append(item.curso.id) %}
+    {{ item.curso.id }}: {
+      nombre:     {{ item.curso.nombre | tojson }},
+      categoria:  {{ item.curso.categoria | tojson }},
+      nivel:      {{ item.curso.nivel | tojson }},
+      duracion:   {{ item.curso.duracion_horas }},
+      precio:     {{ item.curso.precio }},
+      modalidad:  {{ item.curso.modalidad | tojson }},
+      plataforma: {{ item.curso.plataforma | tojson }},
+      url:        {{ item.curso.url | tojson }},
+      rating:     {{ item.curso.rating }},
+      tags:       {{ item.curso.tags | tojson }},
+    },
+{% endif %}
+{% endfor %}
+{% for cat, cat_items in carruseles.items() %}
+{% for item in cat_items %}
+{% if item.curso.id not in seen %}
+{% set _ = seen.append(item.curso.id) %}
+    {{ item.curso.id }}: {
+      nombre:     {{ item.curso.nombre | tojson }},
+      categoria:  {{ item.curso.categoria | tojson }},
+      nivel:      {{ item.curso.nivel | tojson }},
+      duracion:   {{ item.curso.duracion_horas }},
+      precio:     {{ item.curso.precio }},
+      modalidad:  {{ item.curso.modalidad | tojson }},
+      plataforma: {{ item.curso.plataforma | tojson }},
+      url:        {{ item.curso.url | tojson }},
+      rating:     {{ item.curso.rating }},
+      tags:       {{ item.curso.tags | tojson }},
+    },
+{% endif %}
+{% endfor %}
 {% endfor %}
   };
 

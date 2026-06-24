@@ -35,14 +35,10 @@ def filtrar_por_modalidad(
 ) -> List[Curso]:
     """
     Filtra cursos por la modalidad de entrega especificada.
-
-    Args:
-        cursos: Lista de cursos a filtrar.
-        modalidad: Modalidad preferida (Síncrono / Asíncrono).
-
-    Returns:
-        Lista de cursos que coinciden con la modalidad.
+    Si la modalidad está vacía, devuelve todos los cursos sin filtrar.
     """
+    if not modalidad:
+        return cursos
     return list(filter(lambda c: c.modalidad.lower() == modalidad.lower(), cursos))
 
 

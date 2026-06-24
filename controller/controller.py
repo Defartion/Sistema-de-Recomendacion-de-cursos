@@ -91,21 +91,23 @@ def recomendar():
         tags       = request.form.get("tags", "").strip()
 
         # Mapear valores de display (UI) a valores de datos (JSON)
-        MODALIDAD_MAP = {"A mi ritmo": "Asincrona", "En vivo": "Sincro"}
+        # La UI envía "A mi ritmo"/"En vivo"; el JSON usa "Asincrono"/"Sincrono"
+        MODALIDAD_MAP = {"A mi ritmo": "Asincrono", "En vivo": "Sincrono",
+                         "Asincrona": "Asincrono", "Sincro": "Sincrono"}
         modalidad_raw = modalidad
         modalidad = MODALIDAD_MAP.get(modalidad, modalidad)
-        print(f"[DEBUG] modalidad_raw={modalidad_raw}, modalidad={modalidad}")
-        print(f"[DEBUG] categoria={categoria}, nivel={nivel}, presupuesto={presupuesto_val}, tiempo={tiempo_val}")
 
-        if not all([categoria, nivel, presupuesto, tiempo, modalidad]):
-            flash("Por favor completa todos los campos obligatorios.", "error")
-            return redirect(url_for("controller.index"))
-
+        # BUG 1 FIX: convertir presupuesto/tiempo ANTES de usarlos en prints o validaciones
         try:
-            presupuesto_val = float(presupuesto)
-            tiempo_val = int(tiempo)
+            presupuesto_val = float(presupuesto) if presupuesto else 0.0
+            tiempo_val = int(float(tiempo)) if tiempo else 0
         except ValueError:
             flash("Los valores de presupuesto y tiempo deben ser numericos.", "error")
+            return redirect(url_for("controller.index"))
+
+        # BUG 2 FIX: validar solo campos realmente obligatorios; presupuesto 0 es válido
+        if not all([nombre, nivel, tiempo_val]):
+            flash("Por favor completa todos los campos obligatorios.", "error")
             return redirect(url_for("controller.index"))
 
         if presupuesto_val < 0 or tiempo_val <= 0:

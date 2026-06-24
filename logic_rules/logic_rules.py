@@ -16,8 +16,10 @@ _NIVEL_ORD = {"Principiante": 1, "Intermedio": 2, "Avanzado": 3}
 
 
 def _compatibilidad_nivel(nivel_curso: str, nivel_usuario: str) -> bool:
-    """Determina si un nivel de curso es compatible con el nivel del usuario."""
-    return _NIVEL_ORD.get(nivel_curso, 0) >= _NIVEL_ORD.get(nivel_usuario, 0)
+    """Determina si un nivel de curso es compatible con el nivel del usuario.
+    Un curso es compatible si su nivel es <= al nivel del usuario
+    (un principiante no debería ver cursos avanzados)."""
+    return _NIVEL_ORD.get(nivel_curso, 0) <= _NIVEL_ORD.get(nivel_usuario, 3)
 
 
 def _construir_relaciones(cursos: List[Curso]) -> Tuple[Relation, Relation, Relation, Relation, Relation]:
