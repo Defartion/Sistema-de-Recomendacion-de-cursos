@@ -258,10 +258,11 @@
         if (from === 1 && !document.getElementById('nombre').value.trim()) {
             alert('Por favor escribe tu nombre.'); return;
         }
-        if (from === 2 && !singleSelections['sexo']) {
-            const edad = parseInt(document.getElementById('edad').value);
-            if (!edad || edad < 10 || edad > 100 || isNaN(edad)) {
-                alert('Por favor ingresa una edad valida entre 10 y 100 anos.'); return;
+        if (from === 2) {
+            const edadVal = document.getElementById('edad').value;
+            const edad = Number(edadVal);
+            if (!edadVal || !Number.isInteger(edad) || edad < 10 || edad > 100) {
+                alert('Por favor ingresa una edad valida entre 10 y 100 anos (sin decimales).'); return;
             }
             if (!singleSelections['sexo']) {
                 alert('Por favor selecciona una opcion de genero.'); return;
@@ -276,13 +277,13 @@
             document.getElementById('hiddenNivel').value = singleSelections['nivel'];
         }
         if (from === 6) {
-            const presupuesto = parseFloat(document.getElementById('presupuesto').value);
-            const tiempo = parseInt(document.getElementById('tiempo').value);
-            if (!presupuesto || presupuesto <= 0) {
-                alert('Por favor ingresa un presupuesto valido mayor a 0.'); return;
+            const tiempoVal = document.getElementById('tiempo').value;
+            const tiempo = Number(tiempoVal);
+            if (!tiempoVal || !Number.isInteger(tiempo) || tiempo < 1) {
+                alert('Por favor ingresa un numero de horas valido (sin decimales, minimo 1).'); return;
             }
-            if (!tiempo || tiempo < 1 || tiempo > 10000 || isNaN(tiempo)) {
-                alert('Por favor ingresa un numero de horas valido.'); return;
+            if (!document.getElementById('presupuesto').value || parseFloat(document.getElementById('presupuesto').value) <= 0) {
+                alert('Por favor ingresa un presupuesto valido mayor a 0.'); return;
             }
         }
         showStep(from + 1);
