@@ -90,6 +90,9 @@ def recomendar():
         modalidad  = request.form.get("modalidad", "").strip()
         tags       = request.form.get("tags", "").strip()
 
+        # Normalizar modalidad para que coincida con la base de datos (sin tildes)
+        modalidad = modalidad.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
+
         if not all([categoria, nivel, presupuesto, tiempo, modalidad]):
             flash("Por favor completa todos los campos obligatorios.", "error")
             return redirect(url_for("controller.index"))
