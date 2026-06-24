@@ -4,16 +4,13 @@
 
 ---
 
-**Universidad**: [Nombre de la Universidad]
+**Universidad**: 
 **Curso**: Lenguajes de Programacion
-**Docente**: [Nombre del Docente]
+**Docente**: 
 **Equipo**: Equipo 4
 **Integrantes**:
-- [Nombre Apellido 1]
-- [Nombre Apellido 2]
-- [Nombre Apellido 3]
-- [Nombre Apellido 4]
-**Fecha**: [Fecha de entrega]
+
+**Fecha**: 
 
 ---
 
