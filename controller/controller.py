@@ -90,8 +90,10 @@ def recomendar():
         modalidad  = request.form.get("modalidad", "").strip()
         tags       = request.form.get("tags", "").strip()
 
-        # Normalizar modalidad para que coincida con la base de datos (sin tildes)
-        modalidad = modalidad.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
+        # Mapear valores de display (UI) a valores de datos (JSON)
+        MODALIDAD_MAP = {"A mi ritmo": "Asincrona", "En vivo": "Sincro"}
+        modalidad_raw = modalidad
+        modalidad = MODALIDAD_MAP.get(modalidad, modalidad)
 
         if not all([categoria, nivel, presupuesto, tiempo, modalidad]):
             flash("Por favor completa todos los campos obligatorios.", "error")
@@ -188,7 +190,7 @@ def recomendar():
                 "nivel": nivel,
                 "presupuesto": presupuesto_val,
                 "tiempo": tiempo_val,
-                "modalidad": modalidad,
+                "modalidad": modalidad_raw,
                 "tags": tags_list,
             },
             usuario={
