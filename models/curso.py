@@ -48,6 +48,10 @@ class Curso:
         if self.precio < 0:
             raise ValueError("El precio no puede ser negativo")
 
+        # Normalizar URL vacía o inválida
+        if not self.url or not self.url.startswith(("http://", "https://")):
+            self.url = ""
+
     def to_dict(self) -> dict:
         """
         Convierte la instancia a un diccionario serializable.

@@ -65,6 +65,27 @@ class TestScoreYRanking:
         ids_ordenados = [s["curso"].id for s in scored]
         assert ids_ordenados[0] == 1
 
+    def test_calcular_score_bonus_nivel(self, catalogo):
+        """Los cursos con nivel exacto del usuario obtienen un bonus del 10% en el score."""
+        cursos = [c for c in catalogo if c.categoria == "Programacion"]
+        scored_sin_bonus = calcular_score(cursos, [], nivel_usuario="")
+        scored_con_bonus = calcular_score(cursos, [], nivel_usuario="Principiante")
+        # Curso A (id=1) es Principiante
+        curso_a = next(s for s in scored_con_bonus if s["curso"].id == 1)
+        curso_a_sin = next(s for s in scored_sin_bonus if s["curso"].id == 1)
+        assert curso_a["score"] == pytest.approx(curso_a_sin["score"] * 1.10, rel=1e-5)
+
+    def test_calcular_score_sin_bonus_nivel_diferente(self, catalogo):
+        """Los cursos con nivel diferente al del usuario no obtienen bonus."""
+        cursos = [c for c in catalogo if c.categoria == "Programacion"]
+        scored_diferente = calcular_score(cursos, [], nivel_usuario="Intermedio")
+        scored_base = calcular_score(cursos, [], nivel_usuario="")
+        # Curso A (id=1) es Principiante, no deberia tener bonus cuando usuario es Intermedio
+        curso_a_diferente = next(s for s in scored_diferente if s["curso"].id == 1)
+        curso_a_base = next(s for s in scored_base if s["curso"].id == 1)
+        # Debe ser el mismo score (sin bonus)
+        assert curso_a_diferente["score"] == pytest.approx(curso_a_base["score"], rel=1e-5)
+
     def test_obtener_top_n(self, catalogo):
         scored = calcular_score(catalogo, ["python"])
         top_2 = obtener_top_n(scored, 2)
