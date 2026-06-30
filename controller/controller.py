@@ -32,37 +32,23 @@ def _cargar_catalogo() -> List[Curso]:
     return list(_catalogo_cursos)
 
 
-PROFESION_CATEGORIA = {
-    "ingenieria": ["Programacion", "Datos"],
-    "sistemas": ["Programacion", "Datos"],
-    "software": ["Programacion", "Datos"],
-    "informatica": ["Programacion", "Datos"],
-    "computacion": ["Programacion", "Datos"],
-    "medicina": ["Datos"],
-    "salud": ["Datos"],
-    "administracion": ["Negocios", "Marketing"],
-    "negocios": ["Negocios", "Marketing"],
-    "empresa": ["Negocios", "Marketing"],
-    "marketing": ["Marketing"],
-    "publicidad": ["Marketing"],
-    "diseno": ["Diseno"],
-    "arte": ["Diseno"],
-    "grafico": ["Diseno"],
-    "idiomas": ["Idiomas"],
-    "traduccion": ["Idiomas"],
-    "lenguas": ["Idiomas"],
-    "datos": ["Datos"],
-    "estadistica": ["Datos"],
-    "economia": ["Negocios", "Datos"],
-    "contabilidad": ["Negocios"],
-    "finanzas": ["Negocios", "Datos"],
-}
+# Load profession categories from external JSON file
+PROFESIONES_JSON = os.path.join(BASE_DIR, "data", "profesiones.json")
+
+
+def _cargar_profesiones() -> dict:
+    """Load profession categories from JSON file."""
+    if os.path.exists(PROFESIONES_JSON):
+        with open(PROFESIONES_JSON, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
 
 
 def _categorias_por_profesion(profesion: str) -> List[str]:
     profesion_lower = profesion.lower()
+    profesion_map = _cargar_profesiones()
     categorias = []
-    for keyword, cats in PROFESION_CATEGORIA.items():
+    for keyword, cats in profesion_map.items():
         if keyword in profesion_lower:
             for cat in cats:
                 if cat not in categorias:
@@ -108,6 +94,16 @@ def recomendar():
         if not all([nombre, nivel, tiempo_val]):
             flash("Por favor completa todos los campos obligatorios.", "error")
             return redirect(url_for("controller.index"))
+
+        if edad:
+            try:
+                edad_num = int(edad)
+                if edad_num < 10 or edad_num > 100:
+                    flash("La edad debe estar entre 10 y 100 años.", "error")
+                    return redirect(url_for("controller.index"))
+            except ValueError:
+                flash("La edad debe ser un número entero válido.", "error")
+                return redirect(url_for("controller.index"))
 
         if presupuesto_val < 0 or tiempo_val <= 0:
             flash("El presupuesto debe ser positivo y el tiempo mayor a 0.", "error")

@@ -1,0 +1,81 @@
+{
+  "ingenieria": [
+    "Programacion",
+    "Datos"
+  ],
+  "sistemas": [
+    "Programacion",
+    "Datos"
+  ],
+  "software": [
+    "Programacion",
+    "Datos"
+  ],
+  "informatica": [
+    "Programacion",
+    "Datos"
+  ],
+  "computacion": [
+    "Programacion",
+    "Datos"
+  ],
+  "medicina": [
+    "Datos"
+  ],
+  "salud": [
+    "Datos"
+  ],
+  "administracion": [
+    "Negocios",
+    "Marketing"
+  ],
+  "negocios": [
+    "Negocios",
+    "Marketing"
+  ],
+  "empresa": [
+    "Negocios",
+    "Marketing"
+  ],
+  "marketing": [
+    "Marketing"
+  ],
+  "publicidad": [
+    "Marketing"
+  ],
+  "diseno": [
+    "Diseno"
+  ],
+  "arte": [
+    "Diseno"
+  ],
+  "grafico": [
+    "Diseno"
+  ],
+  "idiomas": [
+    "Idiomas"
+  ],
+  "traduccion": [
+    "Idiomas"
+  ],
+  "lenguas": [
+    "Idiomas"
+  ],
+  "datos": [
+    "Datos"
+  ],
+  "estadistica": [
+    "Datos"
+  ],
+  "economia": [
+    "Negocios",
+    "Datos"
+  ],
+  "contabilidad": [
+    "Negocios"
+  ],
+  "finanzas": [
+    "Negocios",
+    "Datos"
+  ]
+}
