@@ -86,7 +86,10 @@ def calcular_score(cursos: List[Curso], tags_usuario: List[str]) -> List[dict]:
             score_tags = 0.0
 
         max_precio = max(c.precio for c in cursos) if cursos else 1.0
-        score_precio = 1.0 - (curso.precio / (max_precio * 2))
+        if max_precio == 0:
+            score_precio = 1.0  # Si todos son gratis, precio no penaliza
+        else:
+            score_precio = 1.0 - (curso.precio / (max_precio * 2))
 
         return {
             "curso": curso,

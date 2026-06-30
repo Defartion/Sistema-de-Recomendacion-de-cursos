@@ -8,9 +8,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/course/python-profesional-desde-cero-curso-basico/",
+        "url": "https://www.udemy.com/courses/search/?q=Python%20para%20Principiantes",
         "rating": 4.5,
-        "tags": ["python", "programacion", "basico", "variables", "funciones"]
+        "tags": [
+            "python",
+            "programacion",
+            "basico",
+            "variables",
+            "funciones"
+        ]
     },
     {
         "id": 2,
@@ -21,9 +27,14 @@
         "precio": 0.0,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com/cursos/fundamentos-python/",
+        "url": "https://platzi.com/search/?q=Fundamentos%20de%20Python",
         "rating": 4.6,
-        "tags": ["python", "backend", "programacion", "fundamentos"]
+        "tags": [
+            "python",
+            "backend",
+            "programacion",
+            "fundamentos"
+        ]
     },
     {
         "id": 3,
@@ -34,9 +45,14 @@
         "precio": 0.0,
         "modalidad": "Asincrono",
         "plataforma": "freeCodeCamp",
-        "url": "https://www.freecodecamp.org",
+        "url": "https://www.freecodecamp.org/news/search/?query=Introduccion%20a%20la%20Programacion",
         "rating": 4.3,
-        "tags": ["programacion", "logica", "basico", "algoritmos"]
+        "tags": [
+            "programacion",
+            "logica",
+            "basico",
+            "algoritmos"
+        ]
     },
     {
         "id": 4,
@@ -47,9 +63,16 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=JavaScript%20Moderno%20y%20ES6%2B",
         "rating": 4.4,
-        "tags": ["javascript", "web", "frontend", "es6", "async", "promises"]
+        "tags": [
+            "javascript",
+            "web",
+            "frontend",
+            "es6",
+            "async",
+            "promises"
+        ]
     },
     {
         "id": 5,
@@ -60,9 +83,15 @@
         "precio": 29.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=React.js%20de%20Cero%20a%20Experto",
         "rating": 4.6,
-        "tags": ["react", "javascript", "frontend", "hooks", "redux"]
+        "tags": [
+            "react",
+            "javascript",
+            "frontend",
+            "hooks",
+            "redux"
+        ]
     },
     {
         "id": 6,
@@ -73,9 +102,16 @@
         "precio": 29.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/course/curso-completo-de-python-desde-cero-hasta-experto/",
+        "url": "https://www.udemy.com/courses/search/?q=Curso%20Completo%20de%20Python%3A%20De%20Cero%20a%20Master",
         "rating": 4.8,
-        "tags": ["python", "flask", "django", "sqlite", "web", "tkinter"]
+        "tags": [
+            "python",
+            "flask",
+            "django",
+            "sqlite",
+            "web",
+            "tkinter"
+        ]
     },
     {
         "id": 7,
@@ -86,9 +122,16 @@
         "precio": 49.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Desarrollo%20Web%20Full%20Stack%20con%20Node.js",
         "rating": 4.5,
-        "tags": ["nodejs", "express", "mongodb", "fullstack", "api", "rest"]
+        "tags": [
+            "nodejs",
+            "express",
+            "mongodb",
+            "fullstack",
+            "api",
+            "rest"
+        ]
     },
     {
         "id": 8,
@@ -99,9 +142,15 @@
         "precio": 44.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Ciberseguridad%20Avanzada%3A%20Hacking%20Etico",
         "rating": 4.7,
-        "tags": ["ciberseguridad", "hacking etico", "pentesting", "redes", "seguridad"]
+        "tags": [
+            "ciberseguridad",
+            "hacking etico",
+            "pentesting",
+            "redes",
+            "seguridad"
+        ]
     },
     {
         "id": 9,
@@ -112,9 +161,15 @@
         "precio": 54.99,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com/",
+        "url": "https://platzi.com/search/?q=Arquitectura%20de%20Software%20y%20Microservicios",
         "rating": 4.6,
-        "tags": ["microservicios", "docker", "kubernetes", "arquitectura", "devops"]
+        "tags": [
+            "microservicios",
+            "docker",
+            "kubernetes",
+            "arquitectura",
+            "devops"
+        ]
     },
     {
         "id": 10,
@@ -125,9 +180,15 @@
         "precio": 24.99,
         "modalidad": "Asincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Estadistica%20para%20Data%20Science",
         "rating": 4.5,
-        "tags": ["estadistica", "probabilidad", "data science", "matematicas", "python"]
+        "tags": [
+            "estadistica",
+            "probabilidad",
+            "data science",
+            "matematicas",
+            "python"
+        ]
     },
     {
         "id": 11,
@@ -138,9 +199,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com",
+        "url": "https://platzi.com/search/?q=Power%20BI%20para%20Analisis%20de%20Negocios",
         "rating": 4.4,
-        "tags": ["power bi", "visualizacion", "dax", "reportes", "business intelligence"]
+        "tags": [
+            "power bi",
+            "visualizacion",
+            "dax",
+            "reportes",
+            "business intelligence"
+        ]
     },
     {
         "id": 12,
@@ -151,9 +218,15 @@
         "precio": 14.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Introduccion%20a%20Excel%20para%20Datos",
         "rating": 4.2,
-        "tags": ["excel", "tablas dinamicas", "datos", "analisis", "formulas"]
+        "tags": [
+            "excel",
+            "tablas dinamicas",
+            "datos",
+            "analisis",
+            "formulas"
+        ]
     },
     {
         "id": 13,
@@ -164,9 +237,15 @@
         "precio": 29.99,
         "modalidad": "Asincrono",
         "plataforma": "edX",
-        "url": "https://www.edx.org",
+        "url": "https://www.edx.org/search?q=Data%20Science%20con%20Python",
         "rating": 4.6,
-        "tags": ["data science", "python", "pandas", "matplotlib", "visualizacion"]
+        "tags": [
+            "data science",
+            "python",
+            "pandas",
+            "matplotlib",
+            "visualizacion"
+        ]
     },
     {
         "id": 14,
@@ -177,9 +256,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Analisis%20de%20Datos%20con%20SQL",
         "rating": 4.5,
-        "tags": ["sql", "bases de datos", "analisis", "data", "postgresql"]
+        "tags": [
+            "sql",
+            "bases de datos",
+            "analisis",
+            "data",
+            "postgresql"
+        ]
     },
     {
         "id": 15,
@@ -190,9 +275,15 @@
         "precio": 34.99,
         "modalidad": "Asincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Machine%20Learning%20con%20Python",
         "rating": 4.8,
-        "tags": ["machine learning", "python", "scikit-learn", "algoritmos", "clasificacion"]
+        "tags": [
+            "machine learning",
+            "python",
+            "scikit-learn",
+            "algoritmos",
+            "clasificacion"
+        ]
     },
     {
         "id": 16,
@@ -203,9 +294,15 @@
         "precio": 79.99,
         "modalidad": "Sincrono",
         "plataforma": "DataCamp",
-        "url": "https://www.datacamp.com",
+        "url": "https://www.datacamp.com/search?q=Big%20Data%20y%20Apache%20Spark",
         "rating": 4.7,
-        "tags": ["big data", "spark", "scala", "cloud", "hadoop"]
+        "tags": [
+            "big data",
+            "spark",
+            "scala",
+            "cloud",
+            "hadoop"
+        ]
     },
     {
         "id": 17,
@@ -216,9 +313,15 @@
         "precio": 149.99,
         "modalidad": "Sincrono",
         "plataforma": "Udacity",
-        "url": "https://www.udacity.com",
+        "url": "https://www.udacity.com/catalog/all/search?search=Inteligencia%20Artificial%20Aplicada",
         "rating": 4.9,
-        "tags": ["inteligencia artificial", "python", "deep learning", "nlp", "redes neuronales"]
+        "tags": [
+            "inteligencia artificial",
+            "python",
+            "deep learning",
+            "nlp",
+            "redes neuronales"
+        ]
     },
     {
         "id": 18,
@@ -229,9 +332,15 @@
         "precio": 89.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Deep%20Learning%20con%20TensorFlow%20y%20Keras",
         "rating": 4.7,
-        "tags": ["deep learning", "tensorflow", "keras", "redes neuronales", "computer vision"]
+        "tags": [
+            "deep learning",
+            "tensorflow",
+            "keras",
+            "redes neuronales",
+            "computer vision"
+        ]
     },
     {
         "id": 19,
@@ -242,9 +351,15 @@
         "precio": 0.0,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/course/introduccion-al-diseno-uxui/",
+        "url": "https://www.udemy.com/courses/search/?q=Introduccion%20al%20Diseno%20UX/UI",
         "rating": 4.2,
-        "tags": ["ux", "ui", "diseno", "wireframes", "principiantes"]
+        "tags": [
+            "ux",
+            "ui",
+            "diseno",
+            "wireframes",
+            "principiantes"
+        ]
     },
     {
         "id": 20,
@@ -255,9 +370,15 @@
         "precio": 14.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Diseno%20Grafico%20desde%20Cero",
         "rating": 4.1,
-        "tags": ["diseno grafico", "color", "tipografia", "composicion", "canva"]
+        "tags": [
+            "diseno grafico",
+            "color",
+            "tipografia",
+            "composicion",
+            "canva"
+        ]
     },
     {
         "id": 21,
@@ -268,9 +389,15 @@
         "precio": 0.0,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com/",
+        "url": "https://platzi.com/search/?q=Figma%20para%20Principiantes",
         "rating": 4.3,
-        "tags": ["figma", "diseno", "prototipado", "ui", "herramientas"]
+        "tags": [
+            "figma",
+            "diseno",
+            "prototipado",
+            "ui",
+            "herramientas"
+        ]
     },
     {
         "id": 22,
@@ -281,9 +408,15 @@
         "precio": 24.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/course/ux-master-en-diseno-web-y-experiencia-de-usuario/",
+        "url": "https://www.udemy.com/courses/search/?q=UX%3A%20Master%20en%20Diseno%20Web%20y%20Experiencia%20de%20Usuario",
         "rating": 4.5,
-        "tags": ["ux", "diseno web", "arquitectura informacion", "conversion", "usabilidad"]
+        "tags": [
+            "ux",
+            "diseno web",
+            "arquitectura informacion",
+            "conversion",
+            "usabilidad"
+        ]
     },
     {
         "id": 23,
@@ -294,9 +427,15 @@
         "precio": 29.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Diseno%20Grafico%20Profesional%20con%20Adobe",
         "rating": 4.3,
-        "tags": ["photoshop", "illustrator", "branding", "diseno grafico", "adobe"]
+        "tags": [
+            "photoshop",
+            "illustrator",
+            "branding",
+            "diseno grafico",
+            "adobe"
+        ]
     },
     {
         "id": 24,
@@ -307,9 +446,16 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/course/uxui-y-prototipado-digital/",
+        "url": "https://www.udemy.com/courses/search/?q=UI/UX%20y%20Prototipado%20Digital",
         "rating": 4.2,
-        "tags": ["ux", "ui", "prototipado", "apps moviles", "marvel", "figma"]
+        "tags": [
+            "ux",
+            "ui",
+            "prototipado",
+            "apps moviles",
+            "marvel",
+            "figma"
+        ]
     },
     {
         "id": 25,
@@ -322,7 +468,15 @@
         "plataforma": "Coursera",
         "url": "https://www.coursera.org/professional-certificates/google-ux-design",
         "rating": 4.8,
-        "tags": ["ux", "ui", "figma", "prototipado", "google", "certificado", "usabilidad"]
+        "tags": [
+            "ux",
+            "ui",
+            "figma",
+            "prototipado",
+            "google",
+            "certificado",
+            "usabilidad"
+        ]
     },
     {
         "id": 26,
@@ -333,9 +487,16 @@
         "precio": 49.99,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com",
+        "url": "https://platzi.com/search/?q=Diseno%20de%20Interfaces%20Moviles%20Avanzado",
         "rating": 4.4,
-        "tags": ["diseno movil", "ui", "ux", "prototipado", "android", "ios"]
+        "tags": [
+            "diseno movil",
+            "ui",
+            "ux",
+            "prototipado",
+            "android",
+            "ios"
+        ]
     },
     {
         "id": 27,
@@ -346,9 +507,15 @@
         "precio": 39.99,
         "modalidad": "Asincrono",
         "plataforma": "Skillshare",
-        "url": "https://www.skillshare.com",
+        "url": "https://www.skillshare.com/search?query=Branding%20y%20Diseno%20de%20Marca",
         "rating": 4.5,
-        "tags": ["branding", "identidad visual", "logotipo", "marca", "estrategia"]
+        "tags": [
+            "branding",
+            "identidad visual",
+            "logotipo",
+            "marca",
+            "estrategia"
+        ]
     },
     {
         "id": 28,
@@ -359,9 +526,15 @@
         "precio": 0.0,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com/",
+        "url": "https://platzi.com/search/?q=Marketing%20Digital%20para%20Principiantes",
         "rating": 4.2,
-        "tags": ["marketing digital", "redes sociales", "contenido", "estrategia", "basico"]
+        "tags": [
+            "marketing digital",
+            "redes sociales",
+            "contenido",
+            "estrategia",
+            "basico"
+        ]
     },
     {
         "id": 29,
@@ -372,9 +545,15 @@
         "precio": 14.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Marketing%20Digital%20y%20SEO",
         "rating": 4.0,
-        "tags": ["marketing", "seo", "google ads", "sem", "posicionamiento"]
+        "tags": [
+            "marketing",
+            "seo",
+            "google ads",
+            "sem",
+            "posicionamiento"
+        ]
     },
     {
         "id": 30,
@@ -385,9 +564,15 @@
         "precio": 14.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Email%20Marketing%20desde%20Cero",
         "rating": 4.1,
-        "tags": ["email marketing", "mailchimp", "automatizacion", "leads", "newsletter"]
+        "tags": [
+            "email marketing",
+            "mailchimp",
+            "automatizacion",
+            "leads",
+            "newsletter"
+        ]
     },
     {
         "id": 31,
@@ -398,9 +583,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Marketing%20Digital%20Completo%20con%20ChatGPT",
         "rating": 4.5,
-        "tags": ["marketing digital", "chatgpt", "ia", "redes sociales", "estrategia"]
+        "tags": [
+            "marketing digital",
+            "chatgpt",
+            "ia",
+            "redes sociales",
+            "estrategia"
+        ]
     },
     {
         "id": 32,
@@ -411,9 +602,15 @@
         "precio": 24.99,
         "modalidad": "Asincrono",
         "plataforma": "LinkedIn Learning",
-        "url": "https://www.linkedin.com/learning",
+        "url": "https://www.linkedin.com/learning/search?keywords=Social%20Media%20Marketing%20Avanzado",
         "rating": 4.3,
-        "tags": ["redes sociales", "instagram", "tiktok", "contenido", "engagement"]
+        "tags": [
+            "redes sociales",
+            "instagram",
+            "tiktok",
+            "contenido",
+            "engagement"
+        ]
     },
     {
         "id": 33,
@@ -424,9 +621,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com",
+        "url": "https://platzi.com/search/?q=Google%20Ads%20de%20Cero%20a%20Experto",
         "rating": 4.4,
-        "tags": ["google ads", "sem", "ppc", "conversion", "campanas publicitarias"]
+        "tags": [
+            "google ads",
+            "sem",
+            "ppc",
+            "conversion",
+            "campanas publicitarias"
+        ]
     },
     {
         "id": 34,
@@ -437,9 +640,15 @@
         "precio": 39.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Growth%20Hacking%20y%20Marketing%20de%20Crecimiento",
         "rating": 4.5,
-        "tags": ["growth hacking", "conversion", "funnels", "ab testing", "metricas"]
+        "tags": [
+            "growth hacking",
+            "conversion",
+            "funnels",
+            "ab testing",
+            "metricas"
+        ]
     },
     {
         "id": 35,
@@ -450,9 +659,15 @@
         "precio": 44.99,
         "modalidad": "Sincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Estrategia%20de%20Marketing%20Digital%20Avanzada",
         "rating": 4.6,
-        "tags": ["estrategia digital", "branding", "omnicanalidad", "analisis", "kpis"]
+        "tags": [
+            "estrategia digital",
+            "branding",
+            "omnicanalidad",
+            "analisis",
+            "kpis"
+        ]
     },
     {
         "id": 36,
@@ -463,9 +678,15 @@
         "precio": 34.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Marketing%20de%20Contenidos%20y%20SEO%20Avanzado",
         "rating": 4.4,
-        "tags": ["seo avanzado", "contenidos", "blog", "linkbuilding", "posicionamiento"]
+        "tags": [
+            "seo avanzado",
+            "contenidos",
+            "blog",
+            "linkbuilding",
+            "posicionamiento"
+        ]
     },
     {
         "id": 37,
@@ -476,9 +697,15 @@
         "precio": 0.0,
         "modalidad": "Asincrono",
         "plataforma": "Platzi",
-        "url": "https://platzi.com",
+        "url": "https://platzi.com/search/?q=Finanzas%20Personales%20e%20Inversion",
         "rating": 4.3,
-        "tags": ["finanzas", "inversion", "ahorro", "presupuesto", "educacion financiera"]
+        "tags": [
+            "finanzas",
+            "inversion",
+            "ahorro",
+            "presupuesto",
+            "educacion financiera"
+        ]
     },
     {
         "id": 38,
@@ -489,9 +716,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Emprendimiento%3A%20De%20la%20Idea%20al%20Negocio",
         "rating": 4.4,
-        "tags": ["emprendimiento", "startup", "modelo de negocio", "lean startup", "pitch"]
+        "tags": [
+            "emprendimiento",
+            "startup",
+            "modelo de negocio",
+            "lean startup",
+            "pitch"
+        ]
     },
     {
         "id": 39,
@@ -502,9 +735,15 @@
         "precio": 14.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Excel%20para%20Negocios%3A%20Basico",
         "rating": 4.2,
-        "tags": ["excel", "negocios", "datos", "reportes", "productividad"]
+        "tags": [
+            "excel",
+            "negocios",
+            "datos",
+            "reportes",
+            "productividad"
+        ]
     },
     {
         "id": 40,
@@ -515,9 +754,16 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "LinkedIn Learning",
-        "url": "https://www.linkedin.com/learning",
+        "url": "https://www.linkedin.com/learning/search?keywords=Gestion%20de%20Proyectos%20Agiles%20con%20Scrum",
         "rating": 4.2,
-        "tags": ["agile", "scrum", "gestion", "liderazgo", "sprints", "kanban"]
+        "tags": [
+            "agile",
+            "scrum",
+            "gestion",
+            "liderazgo",
+            "sprints",
+            "kanban"
+        ]
     },
     {
         "id": 41,
@@ -528,9 +774,15 @@
         "precio": 29.99,
         "modalidad": "Sincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Liderazgo%20y%20Gestion%20de%20Equipos",
         "rating": 4.5,
-        "tags": ["liderazgo", "gestion equipos", "comunicacion", "motivacion", "recursos humanos"]
+        "tags": [
+            "liderazgo",
+            "gestion equipos",
+            "comunicacion",
+            "motivacion",
+            "recursos humanos"
+        ]
     },
     {
         "id": 42,
@@ -541,9 +793,15 @@
         "precio": 24.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Contabilidad%20y%20Finanzas%20para%20Emprendedores",
         "rating": 4.3,
-        "tags": ["contabilidad", "finanzas", "estados financieros", "flujo caja", "impuestos"]
+        "tags": [
+            "contabilidad",
+            "finanzas",
+            "estados financieros",
+            "flujo caja",
+            "impuestos"
+        ]
     },
     {
         "id": 43,
@@ -554,9 +812,15 @@
         "precio": 99.99,
         "modalidad": "Sincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=MBA%20Ejecutivo%3A%20Estrategia%20Empresarial",
         "rating": 4.7,
-        "tags": ["mba", "estrategia", "direccion empresarial", "innovacion", "competitividad"]
+        "tags": [
+            "mba",
+            "estrategia",
+            "direccion empresarial",
+            "innovacion",
+            "competitividad"
+        ]
     },
     {
         "id": 44,
@@ -567,9 +831,15 @@
         "precio": 49.99,
         "modalidad": "Asincrono",
         "plataforma": "LinkedIn Learning",
-        "url": "https://www.linkedin.com/learning",
+        "url": "https://www.linkedin.com/learning/search?keywords=Negociacion%20y%20Ventas%20Avanzadas",
         "rating": 4.5,
-        "tags": ["negociacion", "ventas", "persuasion", "cierre ventas", "clientes"]
+        "tags": [
+            "negociacion",
+            "ventas",
+            "persuasion",
+            "cierre ventas",
+            "clientes"
+        ]
     },
     {
         "id": 45,
@@ -580,9 +850,15 @@
         "precio": 79.99,
         "modalidad": "Sincrono",
         "plataforma": "edX",
-        "url": "https://www.edx.org",
+        "url": "https://www.edx.org/search?q=Transformacion%20Digital%20para%20Empresas",
         "rating": 4.6,
-        "tags": ["transformacion digital", "innovacion", "tecnologia", "cambio organizacional", "ia"]
+        "tags": [
+            "transformacion digital",
+            "innovacion",
+            "tecnologia",
+            "cambio organizacional",
+            "ia"
+        ]
     },
     {
         "id": 46,
@@ -593,9 +869,15 @@
         "precio": 14.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Ingles%20desde%20Cero%3A%20Nivel%20Basico",
         "rating": 4.2,
-        "tags": ["ingles", "basico", "gramatica", "vocabulario", "pronunciacion"]
+        "tags": [
+            "ingles",
+            "basico",
+            "gramatica",
+            "vocabulario",
+            "pronunciacion"
+        ]
     },
     {
         "id": 47,
@@ -606,9 +888,15 @@
         "precio": 14.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Portugues%20para%20Hispanohablantes",
         "rating": 4.1,
-        "tags": ["portugues", "basico", "brasil", "conversacion", "gramatica"]
+        "tags": [
+            "portugues",
+            "basico",
+            "brasil",
+            "conversacion",
+            "gramatica"
+        ]
     },
     {
         "id": 48,
@@ -619,9 +907,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Chino%20Mandarin%20para%20Principiantes",
         "rating": 4.3,
-        "tags": ["chino", "mandarin", "hanzi", "conversacion", "basico"]
+        "tags": [
+            "chino",
+            "mandarin",
+            "hanzi",
+            "conversacion",
+            "basico"
+        ]
     },
     {
         "id": 49,
@@ -632,9 +926,15 @@
         "precio": 29.99,
         "modalidad": "Sincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Ingles%20para%20Negocios",
         "rating": 4.3,
-        "tags": ["ingles", "negocios", "comunicacion", "presentaciones", "emails"]
+        "tags": [
+            "ingles",
+            "negocios",
+            "comunicacion",
+            "presentaciones",
+            "emails"
+        ]
     },
     {
         "id": 50,
@@ -645,9 +945,15 @@
         "precio": 19.99,
         "modalidad": "Sincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Ingles%20Conversacional%20Intermedio",
         "rating": 4.2,
-        "tags": ["ingles", "conversacion", "fluidez", "pronunciacion", "listening"]
+        "tags": [
+            "ingles",
+            "conversacion",
+            "fluidez",
+            "pronunciacion",
+            "listening"
+        ]
     },
     {
         "id": 51,
@@ -658,9 +964,15 @@
         "precio": 24.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Frances%20Nivel%20Intermedio",
         "rating": 4.3,
-        "tags": ["frances", "intermedio", "conversacion", "gramatica", "cultura"]
+        "tags": [
+            "frances",
+            "intermedio",
+            "conversacion",
+            "gramatica",
+            "cultura"
+        ]
     },
     {
         "id": 52,
@@ -671,9 +983,15 @@
         "precio": 49.99,
         "modalidad": "Sincrono",
         "plataforma": "Coursera",
-        "url": "https://www.coursera.org",
+        "url": "https://www.coursera.org/courses?query=Ingles%20Avanzado%3A%20Certificacion%20IELTS",
         "rating": 4.6,
-        "tags": ["ingles avanzado", "ielts", "certificacion", "writing", "speaking"]
+        "tags": [
+            "ingles avanzado",
+            "ielts",
+            "certificacion",
+            "writing",
+            "speaking"
+        ]
     },
     {
         "id": 53,
@@ -684,9 +1002,15 @@
         "precio": 39.99,
         "modalidad": "Asincrono",
         "plataforma": "edX",
-        "url": "https://www.edx.org",
+        "url": "https://www.edx.org/search?q=Traduccion%20e%20Interpretacion%20Profesional",
         "rating": 4.4,
-        "tags": ["traduccion", "interpretacion", "ingles", "linguistica", "profesional"]
+        "tags": [
+            "traduccion",
+            "interpretacion",
+            "ingles",
+            "linguistica",
+            "profesional"
+        ]
     },
     {
         "id": 54,
@@ -697,9 +1021,15 @@
         "precio": 44.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/",
+        "url": "https://www.udemy.com/courses/search/?q=Japones%20Avanzado%3A%20Kanji%20y%20Negocios",
         "rating": 4.5,
-        "tags": ["japones", "kanji", "negocios", "avanzado", "jlpt"]
+        "tags": [
+            "japones",
+            "kanji",
+            "negocios",
+            "avanzado",
+            "jlpt"
+        ]
     },
     {
         "id": 55,
@@ -710,9 +1040,17 @@
         "precio": 24.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/course/the-complete-web-development-bootcamp/",
+        "url": "https://www.udemy.com/courses/search/?q=The%20Complete%202024%20Web%20Development%20Bootcamp",
         "rating": 4.9,
-        "tags": ["html", "css", "javascript", "react", "nodejs", "fullstack", "web"]
+        "tags": [
+            "html",
+            "css",
+            "javascript",
+            "react",
+            "nodejs",
+            "fullstack",
+            "web"
+        ]
     },
     {
         "id": 56,
@@ -725,7 +1063,14 @@
         "plataforma": "Coursera",
         "url": "https://www.coursera.org/professional-certificates/ibm-data-science",
         "rating": 4.9,
-        "tags": ["data science", "python", "sql", "machine learning", "ibm", "certificado"]
+        "tags": [
+            "data science",
+            "python",
+            "sql",
+            "machine learning",
+            "ibm",
+            "certificado"
+        ]
     },
     {
         "id": 57,
@@ -736,8 +1081,15 @@
         "precio": 19.99,
         "modalidad": "Asincrono",
         "plataforma": "Udemy",
-        "url": "https://www.udemy.com/course/photoshop-tutorial/",
+        "url": "https://www.udemy.com/courses/search/?q=Adobe%20Photoshop%20CC%3A%20Masterclass%20Completa",
         "rating": 4.9,
-        "tags": ["photoshop", "retoque", "diseno grafico", "adobe", "composicion", "efectos"]
-}
+        "tags": [
+            "photoshop",
+            "retoque",
+            "diseno grafico",
+            "adobe",
+            "composicion",
+            "efectos"
+        ]
+    }
 ]

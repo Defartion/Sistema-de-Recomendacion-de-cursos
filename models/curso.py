@@ -94,6 +94,12 @@ class Curso:
             tags=data.get("tags", []),
         )
 
+    def __eq__(self, other: object) -> bool:
+        """Dos cursos son iguales si tienen el mismo id."""
+        if not isinstance(other, Curso):
+            return NotImplemented
+        return self.id == other.id
+
     def __hash__(self) -> int:
         """Permite usar instancias de Curso en conjuntos y como claves."""
         return hash(self.id)

@@ -5,6 +5,7 @@ Modulo controlador (paradigma imperativo/OO).
 import json
 import logging
 import os
+import traceback
 from typing import List
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
@@ -27,7 +28,8 @@ def _cargar_catalogo() -> List[Curso]:
         with open(CURSOS_JSON, "r", encoding="utf-8") as f:
             data = json.load(f)
         _catalogo_cursos = [Curso.from_dict(c) for c in data]
-    return _catalogo_cursos
+    # Retornar copia para evitar mutación del catálogo cached
+    return list(_catalogo_cursos)
 
 
 PROFESION_CATEGORIA = {
@@ -203,6 +205,6 @@ def recomendar():
         )
 
     except Exception as e:
-        logger.error(f"Error al procesar recomendacion: {e}")
-        flash(f"Ocurrio un error al procesar la solicitud: {str(e)}", "error")
+        logger.error(f"Error al procesar recomendacion: {e}\n{traceback.format_exc()}")
+        flash("Ocurrio un error al procesar la solicitud. Por favor intenta de nuevo.", "error")
         return redirect(url_for("controller.index"))

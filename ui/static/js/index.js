@@ -71,11 +71,11 @@ function nextStep(from) {
     }
   }
   if (from === 4) {
-    if (multiSelections['categorias'].length === 0) {
-      alert('Por favor selecciona al menos una categoria.');
+    if (!singleSelections['categoria']) {
+      alert('Por favor selecciona una categoria.');
       return;
     }
-    document.getElementById('hiddenCategoria').value = multiSelections['categorias'][0];
+    document.getElementById('hiddenCategoria').value = singleSelections['categoria'];
   }
   if (from === 5) {
     if (!singleSelections['nivel']) {
@@ -91,8 +91,9 @@ function nextStep(from) {
       alert('Por favor ingresa un numero de horas valido (sin decimales, minimo 1).');
       return;
     }
-    const presupuesto = parseFloat(document.getElementById('presupuesto').value);
-    if (!presupuesto && presupuesto !== 0 || presupuesto < 0) {
+    const presupuestoVal = document.getElementById('presupuesto').value;
+    const presupuesto = parseFloat(presupuestoVal);
+    if (presupuestoVal.trim() === '' || isNaN(presupuesto) || presupuesto < 0) {
       alert('Por favor ingresa un presupuesto valido (0 o mayor).');
       return;
     }
