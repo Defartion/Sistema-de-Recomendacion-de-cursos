@@ -43,7 +43,7 @@ class TestRecomendaciones:
         }
         response = client.post("/recomendar", data=datos, follow_redirects=True)
         assert response.status_code == 200
-        assert b"Recomendaciones" in response.data or b"resultados" in response.data.lower()
+        assert b"Recomendaciones" in response.data or b"recomendaciones" in response.data.lower()
 
     def test_post_recomendar_campos_vacios_redirecciona(self, client):
         """Test que campos vacios redireccionan con mensaje de error."""

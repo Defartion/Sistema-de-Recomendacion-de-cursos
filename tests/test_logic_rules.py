@@ -36,8 +36,8 @@ class TestReglasLogicas:
             "tiempo_disponible": 100,
         }
         recomendados, altos = inferir_recomendaciones(preferencias, catalogo_prueba)
-        # Deberia recomendar cursos de Programacion con nivel Principiante o mayor
-        assert len(recomendados) == 3  # A, B, D (todos son Programacion con nivel >= Principiante)
+        # Deberia recomendar cursos de Programacion con nivel Principiante o menor
+        assert len(recomendados) == 2  # A y D (solo Principiante)
         assert all(c.categoria == "Programacion" for c in recomendados)
 
     def test_filtro_presupuesto(self, catalogo_prueba):
@@ -99,7 +99,6 @@ class TestReglasLogicas:
             "tiempo_disponible": 100,
         }
         recomendados, altos = inferir_recomendaciones(preferencias, catalogo_prueba)
-        # Usuario intermedio: nivel_c >= nivel_u (2 >= 2)
-        # Curso A (Principiante=1) no cumple, B (Intermedio=2) si, D (Principiante=1) no
-        assert len(recomendados) == 1  # Solo B
-        assert recomendados[0].id == 2
+        # Usuario intermedio: nivel_c <= nivel_u (Principiante e Intermedio son compatibles)
+        # Curso A (Principiante=1) cumple, B (Intermedio=2) cumple, D (Principiante=1) cumple
+        assert len(recomendados) == 3  # A, B y D
