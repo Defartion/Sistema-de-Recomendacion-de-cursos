@@ -85,7 +85,7 @@ def filtrar_por_nivel(
     return list(filter(lambda c: _compatibilidad_nivel(c.nivel, nivel_usuario), cursos))
 
 
-def calcular_score(cursos: List[Curso], tags_usuario: List[str]) -> List[dict]:
+def calcular_score(cursos: List[Curso], tags_usuario: List[str], nivel_usuario: str = "") -> List[dict]:
     """
     Calcula un puntaje de recomendación para cada curso.
 
@@ -93,10 +93,12 @@ def calcular_score(cursos: List[Curso], tags_usuario: List[str]) -> List[dict]:
     - rating del curso (0-5)
     - porcentaje de coincidencia de tags (0-1)
     - cercanía al presupuesto máximo (inverse, 0-1)
+    - bonus si el nivel coincide exactamente con el del usuario
 
     Args:
         cursos: Lista de cursos a evaluar.
         tags_usuario: Tags de interés del usuario para calcular coincidencia.
+        nivel_usuario: Nivel del usuario para dar bonus de coincidencia exacta.
 
     Returns:
         Lista de diccionarios {'curso': Curso, 'score': float} ordenada
@@ -117,10 +119,16 @@ def calcular_score(cursos: List[Curso], tags_usuario: List[str]) -> List[dict]:
             score_precio = 1.0
         else:
             score_precio = 1.0 - (curso.precio / (max_precio * 2))
-
+        
+        score_total = (score_rating * 0.5) + (score_tags * 0.3) + (max(0, score_precio) * 0.2)
+        
+        # Bonus del 10% si el nivel coincide exactamente
+        if nivel_usuario and curso.nivel == nivel_usuario:
+            score_total *= 1.10
+        
         return {
             "curso": curso,
-            "score": (score_rating * 0.5) + (score_tags * 0.3) + (max(0, score_precio) * 0.2),
+            "score": score_total,
         }
 
     cursos_con_score = list(map(_score_curso, cursos))
@@ -190,5 +198,5 @@ def procesar_recomendaciones(
     cursos_filtrados = filtrar_por_tiempo(cursos_filtrados, tiempo)
     cursos_modern = filtrar_por_nivel(cursos_filtrados, nivel_usuario)
 
-    scored = calcular_score(cursos_modern, tags_usuario)
+    scored = calcular_score(cursos_modern, tags_usuario, nivel_usuario)
     return obtener_top_n(scored, top_n)
