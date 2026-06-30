@@ -58,6 +58,33 @@ def filtrar_por_tiempo(
     return list(filter(lambda c: c.duracion_horas <= tiempo_max, cursos))
 
 
+# ── Nivel por compatibilidad (misma regla que logic_rules.py) ──
+_NIVEL_ORD = {"Principiante": 1, "Intermedio": 2, "Avanzado": 3}
+
+
+def _compatibilidad_nivel(nivel_curso: str, nivel_usuario: str) -> bool:
+    return _NIVEL_ORD.get(nivel_curso, 0) <= _NIVEL_ORD.get(nivel_usuario, 3)
+
+
+def filtrar_por_nivel(
+    cursos: List[Curso], nivel_usuario: str
+) -> List[Curso]:
+    """
+    Filtra cursos cuyo nivel sea menor o igual al nivel del usuario.
+    Un usuario Avanzado puede ver cursos de nivel Intermedio y Principiante también.
+
+    Args:
+        cursos: Lista de cursos a filtrar.
+        nivel_usuario: Nivel del usuario (Principiante/Intermedio/Avanzado).
+
+    Returns:
+        Lista de cursos compatibles con el nivel del usuario.
+    """
+    if not nivel_usuario:
+        return cursos
+    return list(filter(lambda c: _compatibilidad_nivel(c.nivel, nivel_usuario), cursos))
+
+
 def calcular_score(cursos: List[Curso], tags_usuario: List[str]) -> List[dict]:
     """
     Calcula un puntaje de recomendación para cada curso.
@@ -87,7 +114,7 @@ def calcular_score(cursos: List[Curso], tags_usuario: List[str]) -> List[dict]:
 
         max_precio = max(c.precio for c in cursos) if cursos else 1.0
         if max_precio == 0:
-            score_precio = 1.0  # Si todos son gratis, precio no penaliza
+            score_precio = 1.0
         else:
             score_precio = 1.0 - (curso.precio / (max_precio * 2))
 
@@ -137,20 +164,22 @@ def procesar_recomendaciones(
     tiempo: int,
     modalidad: str,
     tags_usuario: List[str],
+    nivel_usuario: str,
     top_n: int = 5,
 ) -> List[dict]:
     """
     Pipeline completo de procesamiento funcional de recomendaciones.
 
-    Aplica secuencialmente filtros por presupuesto, modalidad y tiempo,
+    Aplica secuencialmente filtros por presupuesto, modalidad, tiempo y nivel,
     luego calcula score y retorna el top N.
 
     Args:
-        cursos: Catálogo completo de cursos.
+        cursos: Catálogo comple de cursos.
         presupuesto: Presupuesto máximo del usuario.
         tiempo: Horas disponibles del usuario.
         modalidad: Modalidad preferida (Síncrono / Asíncrono).
         tags_usuario: Tags de interés del usuario.
+        nivel_usuario: Nivel del usuario (Principiante/Intermedio/Avanzado).
         top_n: Cantidad máxima de resultados a retornar.
 
     Returns:
@@ -159,6 +188,7 @@ def procesar_recomendaciones(
     cursos_filtrados = filtrar_por_presupuesto(cursos, presupuesto)
     cursos_filtrados = filtrar_por_modalidad(cursos_filtrados, modalidad)
     cursos_filtrados = filtrar_por_tiempo(cursos_filtrados, tiempo)
+    cursos_modern = filtrar_por_nivel(cursos_filtrados, nivel_usuario)
 
-    scored = calcular_score(cursos_filtrados, tags_usuario)
+    scored = calcular_score(cursos_modern, tags_usuario)
     return obtener_top_n(scored, top_n)

@@ -250,3 +250,44 @@
     background: #6366f1;
     border-radius: 99px;
 }
+
+
+/* ==========================================
+   Carousel Arrows
+   ========================================== */
+.carousel-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.carousel-arrow:hover {
+    background: rgba(99,102,241,0.3);
+    border-color: rgba(99,102,241,0.5);
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Avatar Placeholder */
+.avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 0 15px rgba(99,102,241,0.3);
+}

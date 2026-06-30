@@ -191,7 +191,7 @@
           <input type="number" id="presupuesto" name="presupuesto" min="0" step="0.01" placeholder="Ej: 100.00" class="input-dark">
         </div>
         <div class="mb-6 flex items-center gap-2">
-          <input type="checkbox" id="soloGratuitos" class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-brand-500 focus:ring-brand-500">
+          <input type="checkbox" id="soloGratuitos" name="solo_gratuitos" value="1" class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-brand-500 focus:ring-brand-500">
           <label for="soloGratuitos" class="text-sm text-slate-300">Solo mostrar cursos gratuitos</label>
         </div>
         <div class="mb-6">
@@ -242,4 +242,40 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+<script>
+  // Pre-fill form from session if available
+  (function() {
+    const data = {{ session.get('ultima_busqueda', {}) | tojson }};
+    if (!data || !data.nombre) return;
+
+    // Text inputs
+    const fields = { nombre: '#nombre', edad: '#edad', profesion: '#profesion', tags: '#tags' };
+    for (const [key, selector] of Object.entries(fields)) {
+      const el = document.querySelector(selector);
+      if (el && data[key]) el.value = data[key];
+    }
+
+    // Hidden inputs
+    if (data.categoria) document.getElementById('hiddenCategoria').value = data.categoria;
+    if (data.nivel) document.getElementById('hiddenNivel').value = data.nivel;
+    if (data.modalidad) document.getElementById('hiddenModalidad').value = data.modalidad;
+    if (data.sexo) document.getElementById('hiddenSexo').value = data.sexo;
+
+    // Trigger card selections using existing selectSingle function
+    function triggerCard(name, value) {
+      if (!value) return;
+      const cards = document.querySelectorAll(`[onclick*="'${name}', '${value}'"]`);
+      cards.forEach(card => card.click());
+    }
+
+    // Trigger selections for categorical fields
+    if (window.selectSingle) {
+      triggerCard('sexo', data.sexo);
+      triggerCard('categoria', data.categoria);
+      triggerCard('nivel', data.nivel);
+      triggerCard('modalidad', data.modalidad);
+    }
+  })();
+</script>
 {% endblock %}

@@ -8,7 +8,7 @@ import os
 import traceback
 from typing import List
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 
 from models.curso import Curso
 from processor.processor import procesar_recomendaciones
@@ -109,6 +109,11 @@ def recomendar():
             flash("El presupuesto debe ser positivo y el tiempo mayor a 0.", "error")
             return redirect(url_for("controller.index"))
 
+        # Check if user only wants free courses
+        solo_gratuitos = request.form.get("solo_gratuitos", "")
+        if solo_gratuitos:
+            presupuesto_val = 0.0
+
         tags_list = [t.strip() for t in tags.split(",") if t.strip()]
         catalogo = _cargar_catalogo()
 
@@ -125,7 +130,7 @@ def recomendar():
 
         resultados_funcionales = procesar_recomendaciones(
             catalogo, presupuesto=presupuesto_val, tiempo=tiempo_val,
-            modalidad=modalidad, tags_usuario=tags_list, top_n=50
+            modalidad=modalidad, tags_usuario=tags_list, nivel_usuario=nivel, top_n=50
         )
 
         ids_logicos = {c.id for c in recomendados_logicos}
@@ -177,6 +182,25 @@ def recomendar():
                     })
             relacionados_profesion.sort(key=lambda x: -x["curso"].rating)
 
+        # Guardar busqueda en sesion para recuperar contexto despues
+        session["ultima_busqueda"] = {
+            "nombre": nombre,
+            "edad": edad,
+            "sexo": sexo,
+            "profesion": profesion,
+            "categoria": categoria,
+            "nivel": nivel,
+            "presupuesto": presupuesto_val,
+            "tiempo": tiempo_val,
+            "modalidad": modalidad_raw,
+            "tags": tags_list,
+        }
+        
+        # Contadores para la UI
+        total_recomendaciones = len(recomendaciones)
+        total_relacionados = len(relacionados_profesion)
+        total_mejor_valorados = len(mejor_valorados)
+
         return render_template(
             "resultado.html",
             recomendaciones=recomendaciones,
@@ -184,6 +208,9 @@ def recomendar():
             carruseles=carruseles,
             relacionados_profesion=relacionados_profesion,
             cats_profesion=cats_profesion,
+            total_recomendaciones=total_recomendaciones,
+            total_relacionados=total_relacionados,
+            total_mejor_valorados=total_mejor_valorados,
             preferencias={
                 "categoria": categoria,
                 "nivel": nivel,

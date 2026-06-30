@@ -31,8 +31,9 @@ def crear_app() -> Flask:
         static_folder=os.path.join(base_dir, "ui", "static"),
     )
 
-    # Clave secreta necesaria para flash messages
+    # Clave secreta necesaria para flash messages y sesiones
     app.secret_key = "clave_secreta_proyecto_lenguaje_2025"
+    app.config["SESSION_TYPE"] = "filesystem"
 
     # Registrar el Blueprint del controlador
     app.register_blueprint(controller_bp)

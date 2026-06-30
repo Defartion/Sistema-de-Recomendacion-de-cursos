@@ -113,6 +113,31 @@ document.getElementById('onboardingForm').addEventListener('submit', function(e)
   }
   document.getElementById('hiddenModalidad').value = singleSelections['modalidad'];
   document.getElementById('hiddenNivel').value = singleSelections['nivel'] || '';
+
+  // If "solo gratuitos" is checked, set presupuesto to 0
+  const checkboxGratuitos = document.getElementById('soloGratuitos');
+  if (checkboxGratuitos && checkboxGratuitos.checked) {
+    document.getElementById('presupuesto').value = '0';
+  }
+});
+
+// Handle "solo cursos gratuitos" checkbox
+document.addEventListener('DOMContentLoaded', function() {
+  const checkbox = document.getElementById('soloGratuitos');
+  const presupuestoInput = document.getElementById('presupuesto');
+  if (checkbox && presupuestoInput) {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        presupuestoInput.value = '0';
+        presupuestoInput.disabled = true;
+        presupuestoInput.classList.add('opacity-50');
+      } else {
+        presupuestoInput.disabled = false;
+        presupuestoInput.classList.remove('opacity-50');
+        presupuestoInput.value = '';
+      }
+    });
+  }
 });
 
 showStep(1);

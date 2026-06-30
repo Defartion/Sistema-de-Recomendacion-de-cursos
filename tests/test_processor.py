@@ -100,7 +100,7 @@ class TestPipelineCompleto:
     def test_procesar_recomendaciones(self, catalogo):
         resultados = procesar_recomendaciones(
             catalogo, presupuesto=80.0, tiempo=15, modalidad="Asincrono",
-            tags_usuario=["python"], top_n=2
+            tags_usuario=["python"], nivel_usuario="Principiante", top_n=2
         )
         assert len(resultados) <= 2
         if resultados:
@@ -111,6 +111,6 @@ class TestPipelineCompleto:
     def test_pipeline_vacio_sin_resultados(self, catalogo):
         resultados = procesar_recomendaciones(
             catalogo, presupuesto=0.0, tiempo=0, modalidad="Sincrono",
-            tags_usuario=["inexistente"], top_n=3
+            tags_usuario=["inexistente"], nivel_usuario="Avanzado", top_n=3
         )
         assert resultados == []

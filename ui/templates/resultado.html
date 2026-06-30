@@ -9,7 +9,7 @@
   <div class="mb-8 animate-fade-up">
     {% if usuario and usuario.nombre %}
     <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-400 to-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg" style="background: linear-gradient(135deg, hsl({{ ((usuario.nombre[0]|upper|int(default=0, base=36) * 137) % 360) }}, 70%, 60%), hsl({{ ((usuario.nombre[0]|upper|int(default=0, base=36) * 137 + 60) % 360) }}, 70%, 50%)); filter: drop-shadow(0 0 8px rgba(99,102,241,0.3));">
         {{ usuario.nombre[0]|upper }}
       </div>
       <div>
@@ -66,9 +66,16 @@
   {% set altos = recomendaciones | selectattr("es_alto") | list %}
   {% if altos %}
   <section class="mb-10 animate-fade-up">
-    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-      <i class="fa-solid fa-fire text-orange-400"></i> Altamente Recomendados
-    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-white flex items-center gap-2">
+        <i class="fa-solid fa-fire text-orange-400"></i> Altamente Recomendados
+        <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-0.5 rounded-full">{{ altos|length }}</span>
+      </h3>
+      <div class="flex gap-2">
+        <button type="button" class="carousel-arrow left" onclick="scrollCarousel(this, -300)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button type="button" class="carousel-arrow right" onclick="scrollCarousel(this, 300)"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
     <div class="carousel-scroll">
       {% for item in altos %}
       <div class="course-card-tw highlight" onclick="openModal({{ item.curso.id }})">
@@ -103,12 +110,19 @@
   <!-- 2. Relacionado a tu carrera (siempre visible) -->
   {% if relacionados_profesion %}
   <section class="mb-10 animate-fade-up">
-    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-      <i class="fa-solid fa-briefcase text-blue-400"></i> Relacionado a tu carrera
-      {% if usuario and usuario.profesion %}
-      <span class="text-xs font-medium bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full">{{ usuario.profesion }}</span>
-      {% endif %}
-    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-white flex items-center gap-2">
+        <i class="fa-solid fa-briefcase text-blue-400"></i> Relacionado a tu carrera
+        {% if usuario and usuario.profesion %}
+        <span class="text-xs font-medium bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full">{{ usuario.profesion }}</span>
+        {% endif %}
+        <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-0.5 rounded-full">{{ relacionados_profesion|length }}</span>
+      </h3>
+      <div class="flex gap-2">
+        <button type="button" class="carousel-arrow left" onclick="scrollCarousel(this, -300)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button type="button" class="carousel-arrow right" onclick="scrollCarousel(this, 300)"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
     <div class="carousel-scroll">
       {% for item in relacionados_profesion %}
       <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
@@ -135,9 +149,16 @@
   <!-- 3. Mejor Valorados (siempre visible) -->
   {% if mejor_valorados %}
   <section class="mb-10 animate-fade-up">
-    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-      <i class="fa-solid fa-medal text-yellow-400"></i> Mejor Valorados
-    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-white flex items-center gap-2">
+        <i class="fa-solid fa-medal text-yellow-400"></i> Mejor Valorados
+        <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-0.5 rounded-full">{{ mejor_valorados|length }}</span>
+      </h3>
+      <div class="flex gap-2">
+        <button type="button" class="carousel-arrow left" onclick="scrollCarousel(this, -300)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button type="button" class="carousel-arrow right" onclick="scrollCarousel(this, 300)"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
     <div class="carousel-scroll">
       {% for item in mejor_valorados %}
       <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
@@ -164,9 +185,16 @@
   <!-- 4. Carruseles por categoria (siempre visibles) -->
   {% for categoria, items in carruseles.items() %}
   <section class="mb-10 animate-fade-up">
-    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-      <i class="fa-solid fa-folder-open text-brand-400"></i> {{ categoria }}
-    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-white flex items-center gap-2">
+        <i class="fa-solid fa-folder-open text-brand-400"></i> {{ categoria }}
+        <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-0.5 rounded-full">{{ items|length }}</span>
+      </h3>
+      <div class="flex gap-2">
+        <button type="button" class="carousel-arrow left" onclick="scrollCarousel(this, -300)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button type="button" class="carousel-arrow right" onclick="scrollCarousel(this, 300)"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
     <div class="carousel-scroll">
       {% for item in items %}
       <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
@@ -365,5 +393,12 @@
 {% endfor %}
 {% endfor %}
   };
+
+  function scrollCarousel(button, amount) {
+    const carousel = button.closest('section').querySelector('.carousel-scroll');
+    if (carousel) {
+      carousel.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+  }
 </script>
 {% endblock %}
