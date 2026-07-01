@@ -109,7 +109,7 @@ def recomendar():
             flash("El presupuesto debe ser positivo y el tiempo mayor a 0.", "error")
             return redirect(url_for("controller.index"))
 
-        # Check if user only wants free courses
+        # validador de solo gratuitos
         solo_gratuitos = request.form.get("solo_gratuitos", "")
         if solo_gratuitos:
             presupuesto_val = 0.0
