@@ -10,10 +10,13 @@ Sistema web de recomendacion inteligente de cursos online que integra tres parad
 
 ## Integrantes del Equipo
 
-- [Nombre Apellido 1]
-- [Nombre Apellido 2]
-- [Nombre Apellido 3]
-- [Nombre Apellido 4]
+- Basilio Vargas Christopher Jhon
+- Castro Reyes Diego Leonardo
+- Gutiérrez Chávez Diego
+- Gutiérrez De La Cruz Kelly Judith
+- Paul Luján Zavaleta Wilmer Enrique
+- Pelaez Lopez Sebastian Nicolas
+
 
 ## Arquitectura del Proyecto
 
