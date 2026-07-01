@@ -1,11 +1,3 @@
-"""
-Módulo de modelo de dominio para el sistema de recomendación de cursos.
-
-Este módulo contiene la definición de la entidad principal `Curso`,
-tipos de datos y funciones utilitarias para la conversión entre
-representaciones JSON y objetos Python.
-"""
-
 from dataclasses import dataclass, field
 from typing import List, Any
 
@@ -14,18 +6,6 @@ from typing import List, Any
 class Curso:
     """
     Representa un curso online en el sistema de recomendación.
-
-    Atributos:
-        id (int): Identificador único del curso.
-        nombre (str): Título del curso.
-        categoria (str): Categoría temática (ej. Programación, Diseño, Datos).
-        nivel (str): Nivel de dificultad (Principiante, Intermedio, Avanzado).
-        duracion_horas (int): Duración estimada en horas.
-        precio (float): Precio del curso en USD.
-        modalidad (str): Modalidad de entrega (Síncrono / Asíncrono).
-        plataforma (str): Plataforma que ofrece el curso.
-        rating (float): Puntuación entre 0.0 y 5.0.
-        tags (List[str]): Lista de etiquetas descriptivas.
     """
     id: int
     nombre: str
