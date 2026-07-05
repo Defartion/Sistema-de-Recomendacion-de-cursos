@@ -60,22 +60,22 @@
   </div>
   {% endif %}
 
-  {% if recomendaciones %}
-
   <!-- 1. Altamente Recomendados -->
   {% set altos = recomendaciones | selectattr("es_alto") | list %}
-  {% if altos %}
   <section class="mb-10 animate-fade-up">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
         <i class="fa-solid fa-fire text-orange-400"></i> Altamente Recomendados
         <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-0.5 rounded-full">{{ altos|length }}</span>
       </h3>
+      {% if altos %}
       <div class="flex gap-2">
         <button type="button" class="carousel-arrow left" onclick="scrollCarousel(this, -300)"><i class="fa-solid fa-chevron-left"></i></button>
         <button type="button" class="carousel-arrow right" onclick="scrollCarousel(this, 300)"><i class="fa-solid fa-chevron-right"></i></button>
       </div>
+      {% endif %}
     </div>
+    {% if altos %}
     <div class="carousel-scroll">
       {% for item in altos %}
       <div class="course-card-tw highlight" onclick="openModal({{ item.curso.id }})">
@@ -96,19 +96,16 @@
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <div class="glass rounded-xl p-6 text-center">
+      <i class="fa-regular fa-face-frown-open text-3xl text-slate-500 mb-3 block"></i>
+      <p class="text-slate-300 text-sm font-medium">No hay cursos en esta seccion que cumplan con tus preferencias.</p>
+      <p class="text-slate-500 text-xs mt-1">Intenta ampliar tu presupuesto o tiempo disponible.</p>
+    </div>
+    {% endif %}
   </section>
-  {% endif %}
-
-  {% else %}
-  <div class="text-center py-10 animate-fade-up">
-    <i class="fa-solid fa-magnifying-glass text-4xl text-slate-600 mb-4 block"></i>
-    <h3 class="text-xl font-bold text-slate-300 mb-2">No se encontraron recomendaciones exactas</h3>
-    <p class="text-slate-500 text-sm">Intenta ampliar tu presupuesto, tiempo disponible, o selecciona otra categoria.</p>
-  </div>
-  {% endif %}
 
   <!-- 2. Relacionado a tu carrera (siempre visible) -->
-  {% if relacionados_profesion %}
   <section class="mb-10 animate-fade-up">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
@@ -118,11 +115,14 @@
         {% endif %}
         <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-0.5 rounded-full">{{ relacionados_profesion|length }}</span>
       </h3>
+      {% if relacionados_profesion %}
       <div class="flex gap-2">
         <button type="button" class="carousel-arrow left" onclick="scrollCarousel(this, -300)"><i class="fa-solid fa-chevron-left"></i></button>
         <button type="button" class="carousel-arrow right" onclick="scrollCarousel(this, 300)"><i class="fa-solid fa-chevron-right"></i></button>
       </div>
+      {% endif %}
     </div>
+    {% if relacionados_profesion %}
     <div class="carousel-scroll">
       {% for item in relacionados_profesion %}
       <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
@@ -143,22 +143,30 @@
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <div class="glass rounded-xl p-6 text-center">
+      <i class="fa-regular fa-face-frown-open text-3xl text-slate-500 mb-3 block"></i>
+      <p class="text-slate-300 text-sm font-medium">No hay cursos relacionados a tu profesion con tus filtros actuales.</p>
+      <p class="text-slate-500 text-xs mt-1">Intenta ampliar tu presupuesto o tiempo disponible.</p>
+    </div>
+    {% endif %}
   </section>
-  {% endif %}
 
   <!-- 3. Mejor Valorados (siempre visible) -->
-  {% if mejor_valorados %}
   <section class="mb-10 animate-fade-up">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-bold text-white flex items-center gap-2">
         <i class="fa-solid fa-medal text-yellow-400"></i> Mejor Valorados
         <span class="text-xs bg-slate-700/50 text-slate-300 px-2 py-0.5 rounded-full">{{ mejor_valorados|length }}</span>
       </h3>
+      {% if mejor_valorados %}
       <div class="flex gap-2">
         <button type="button" class="carousel-arrow left" onclick="scrollCarousel(this, -300)"><i class="fa-solid fa-chevron-left"></i></button>
         <button type="button" class="carousel-arrow right" onclick="scrollCarousel(this, 300)"><i class="fa-solid fa-chevron-right"></i></button>
       </div>
+      {% endif %}
     </div>
+    {% if mejor_valorados %}
     <div class="carousel-scroll">
       {% for item in mejor_valorados %}
       <div class="course-card-tw" onclick="openModal({{ item.curso.id }})">
@@ -179,8 +187,14 @@
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <div class="glass rounded-xl p-6 text-center">
+      <i class="fa-regular fa-face-frown-open text-3xl text-slate-500 mb-3 block"></i>
+      <p class="text-slate-300 text-sm font-medium">No hay cursos mejor valorados disponibles.</p>
+      <p class="text-slate-500 text-xs mt-1">Esto es muy raro, intenta recargar la pagina.</p>
+    </div>
+    {% endif %}
   </section>
-  {% endif %}
 
   <!-- 4. Carruseles por categoria (siempre visibles) -->
   {% for categoria, items in carruseles.items() %}

@@ -87,8 +87,8 @@ function nextStep(from) {
   if (from === 6) {
     const tiempoVal = document.getElementById('tiempo').value;
     const tiempo = Number(tiempoVal);
-    if (!tiempoVal || !Number.isInteger(tiempo) || tiempo < 1) {
-      alert('Por favor ingresa un numero de horas valido (sin decimales, minimo 1).');
+    if (!tiempoVal || !Number.isInteger(tiempo) || tiempo < 10 || tiempo > 720) {
+      alert('Por favor ingresa un numero de horas valido (entre 10 y 720, sin decimales).');
       return;
     }
     const presupuestoVal = document.getElementById('presupuesto').value;
