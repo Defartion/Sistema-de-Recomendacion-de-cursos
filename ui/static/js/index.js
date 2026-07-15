@@ -53,10 +53,18 @@ function selectMulti(card, group, value, maxSelect) {
 
 function nextStep(from) {
   if (from === 1) {
-    if (!document.getElementById('nombre').value.trim()) {
+    const nombreVal = document.getElementById('nombre').value.trim();
+    if (!nombreVal) {
       alert('Por favor escribe tu nombre.');
       return;
     }
+    // Validar que el nombre solo contenga letras (incluye acentos), espacios y como max 40 caracteres
+    const regexNombre = /^[A-Za-zÁáÉéÍíÓóÚúÑñÜü\s]{2,40}$/;
+    if (!regexNombre.test(nombreVal)) {
+      alert('El nombre solo puede contener letras y espacios (sin numeros, puntos, guiones ni simbolos).');
+      return;
+    }
+    document.getElementById('nombre').value = nombreVal;
   }
   if (from === 2) {
     const edadVal = document.getElementById('edad').value;
