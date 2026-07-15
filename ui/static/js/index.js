@@ -58,7 +58,6 @@ function nextStep(from) {
       alert('Por favor escribe tu nombre.');
       return;
     }
-    // Validar que el nombre solo contenga letras (incluye acentos), espacios y como max 40 caracteres
     const regexNombre = /^[A-Za-zÁáÉéÍíÓóÚúÑñÜü\s]{2,40}$/;
     if (!regexNombre.test(nombreVal)) {
       alert('El nombre solo puede contener letras y espacios (sin numeros, puntos, guiones ni simbolos).');
