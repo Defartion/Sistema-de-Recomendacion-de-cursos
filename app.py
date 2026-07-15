@@ -42,7 +42,7 @@ def crear_app() -> Flask:
 
 
 if __name__ == "__main__":
-    import os
+    
     app = crear_app()
     print("=" * 50)
     print("  Sistema de Recomendacion de Cursos Online")
