@@ -69,7 +69,7 @@ function nextStep(from) {
     const edadVal = document.getElementById('edad').value;
     const edad = Number(edadVal);
     if (!edadVal || !Number.isInteger(edad) || edad < 10 || edad > 100) {
-      alert('Por favor ingresa una edad valida entre 10 y 100 anos (sin decimales).');
+      alert('Por favor ingresa una edad valida entre 10 y 100 años (sin decimales).');
       return;
     }
     if (!singleSelections['sexo']) {
