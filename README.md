@@ -118,7 +118,7 @@ pytest -v
 
 ## Uso de la Aplicacion
 
-1. Acceder a `http://127.0.0.1:5000` en el navegador.
+1. Acceder a `https://sistema-de-recomendacion-de-cursos-production.up.railway.app/` en el navegador.
 2. Completar el formulario con las preferencias:
    - Categoria de interes
    - Nivel actual
